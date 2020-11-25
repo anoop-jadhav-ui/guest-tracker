@@ -1,0 +1,11 @@
+.higherOrderFun{
+    border :1px solid grey;
+    padding:2rem;
+}
+
+.title{
+    font-size:1.2rem;
+    text-transform: uppercase;
+    color:lightgray;
+    padding-bottom:1rem;
+}

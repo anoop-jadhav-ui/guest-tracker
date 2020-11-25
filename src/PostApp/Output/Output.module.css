@@ -1,0 +1,25 @@
+.output{
+    padding:1rem;
+    margin:0 auto;
+    border:1px solid red;
+    
+    width:400px;
+}
+
+.post .id,
+.post .title{
+ font-weight:bold;
+}
+.post .id{
+    padding:0 0.25rem 0 0;
+}
+.post .content{
+    font-weight:normal;
+}
+.post{
+    display:flex;
+}
+.post + .post {
+    padding-top:1rem;
+}
+   

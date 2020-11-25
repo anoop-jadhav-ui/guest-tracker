@@ -1,0 +1,29 @@
+
+.App{
+  
+}
+.appTitle{
+  text-align:center;
+  padding:1rem;
+}
+.baburao{
+  font-weight:bold;
+  font-size:1.5rem;
+  color:grey;
+  display:inline-block;
+  transform:rotate(90deg) translateY(10px) translateX(1px);
+  color:orange;
+}
+.header{
+  color:grey;
+  font-size:1.5rem;
+  font-family: 'Fondamento', cursive;
+}
+.appWrapper{
+  display:flex;
+  justify-content:center;
+}
+
+.appWrapper > div + div{
+  margin-left:0.5rem;
+}

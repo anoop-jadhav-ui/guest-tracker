@@ -28,9 +28,9 @@ class App extends Component {
   render() {
     return (
       <div className={styles.App}>
-        <div className={styles.appTitle}>
+        {/* <div className={styles.appTitle}>
           <span className={styles.baburao}>{' :\{ '}</span><span className={styles.header}>miBaburao</span>
-        </div>
+        </div> */}
         <div className={styles.appWrapper}>
           {/* <PostApp></PostApp>
           { this.state.mountCmp && <Lifecycle dosto={this.state.dosto} updateProps={this.updateProps.bind(this)} unMount={this.unMount.bind(this)}></Lifecycle>} */}

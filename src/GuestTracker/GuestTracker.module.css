@@ -1,8 +1,8 @@
 .GuestTrackerApp{
-    border :1px solid lightgrey;
+    /* border :1px solid lightgrey; */
     border-radius:0.25rem;
 
-    width:375px;
+    /* width:375px; */
     font-size:13px;
     font-family: 'Roboto', sans-serif; 
     padding:1rem 0 2rem 0;

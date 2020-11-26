@@ -51,15 +51,15 @@ const Form = (props) => {
         <div className={styles.form}>
             <h4>Make a note</h4>
             <div className={styles.inputBlock}>
-                <label htmlFor="title">Title</label>
-                <input type="text" value={titleState} name="title" onChange={changeHandler} />
+                <label className={styles.label} htmlFor="title">Title</label>
+                <input className={styles.input} type="text" value={titleState} name="title" onChange={changeHandler} />
             </div>
             <div className={styles.inputBlock}>
-                <label htmlFor="content">Content</label>
-                <textarea type="text" value={contentState} name="content" onChange={changeHandler} />
+                <label className={styles.label} htmlFor="content">Content</label>
+                <textarea className={styles.textarea} type="text" value={contentState} name="content" onChange={changeHandler} />
             </div>
             <div className={styles.buttonWrapper}>
-                <button onClick={() => submitPost.bind(props.parent)()}>Post it</button>
+                <button className={styles.button} onClick={() => submitPost.bind(props.parent)()}>Post it</button>
             </div>
         </div>
     )

@@ -8,12 +8,12 @@
 .inputBlock{
     padding-top :1rem;
 }
-label{
+.label{
     padding-bottom:0.25rem;
     display:block;
 }
-textarea,
-input{
+.textarea,
+.input{
     display:block;
     width:100%;
     height:1.75rem;
@@ -22,14 +22,14 @@ input{
     border-width:1px;
 }
 
-textarea{
+.textarea{
     height:3rem;
     appearance : none
 }
 .button-wrapper{
     text-align: right;
 }
-button{
+.button{
     margin-top:2rem;
     padding:0.25rem 1rem;
     background:grey;

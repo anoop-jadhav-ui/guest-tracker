@@ -1,0 +1,56 @@
+.title{
+    font-size:0.75rem;
+    letter-spacing:1px;
+    padding-bottom:1rem;
+    padding-top:1rem;
+    text-align:center;
+    text-transform: uppercase;
+    color:#2F80ED;
+}
+
+.primaryButton{
+    background:#2F80ED;
+    color:white;
+    font-weight: bold;
+    appearance:none;
+    border:0;
+    padding: 0.2rem 0.8rem;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:34px;
+    cursor:pointer;
+}
+.secondaryButton{
+    background:white;
+    color:#2F80ED;
+    border:0;
+    font-weight: bold;
+    appearance:none;
+    padding: 0.2rem 0.8rem;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:34px;
+    cursor:pointer;
+    border:2px solid #2F80ED;
+}
+.secondaryButton:focus,
+.secondaryButton:active{
+    border:0;
+    outline:none;
+}
+
+.primaryButton > .icon,
+.secondaryButton > .icon{
+    font-size:1.2rem;
+    position:relative;
+    top:1px;
+
+}
+.primaryButton > .buttonText,
+.secondaryButton > .buttonText{
+    padding-left:0.5rem;
+}

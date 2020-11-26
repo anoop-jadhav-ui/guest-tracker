@@ -1,0 +1,76 @@
+
+.form{
+padding:1rem 1rem 0.5rem 1rem;
+border:1px solid lightgrey;
+margin:0 1rem 1rem 1rem;
+border-radius: 4px;
+}
+.formWrapper{
+    margin:1rem 0 0.5rem 0;
+}
+
+.inputWrapper + .inputWrapper{
+    padding-top:1rem;
+}
+
+.label{
+    padding-bottom:0.25rem;
+    display:block;
+    
+  
+}
+.textarea,
+.input{
+    display:block;
+    width:100%;
+    height:1.75rem;
+    padding:0.5rem;
+    appearance : none;
+    border:1px solid lightgrey;
+    border-radius: 4px;
+}
+
+.textarea{
+    height:3rem;
+    appearance : none
+}
+.radioWrapper{
+    display:flex;
+}
+.radioWrapper > span{
+    padding-left:0.5rem;
+}
+.radioWrapper{
+    padding-top:0.5rem;
+}
+
+.addMemButton{
+    display:flex;
+    justify-content:center;
+    padding-top:1rem;
+
+}
+
+
+/* Notes */
+
+.notesWrapper{
+    border-top:1px solid #f1f1f1;
+    margin-top:1rem;
+}
+.infoText{
+    padding-top:1rem;
+    padding-left:0.2rem;
+    color:grey;
+    font-size:10px;
+    position:relative;
+}
+.infoText:before{
+    content:'*';
+    position:absolute;
+    left:-0.3rem;
+}
+.infoText + .infoText{
+    padding-top:0.5rem;
+}
+

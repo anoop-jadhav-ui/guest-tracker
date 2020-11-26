@@ -4,6 +4,7 @@ import styles from './App.module.css'
 import PostApp from './PostApp/PostApp'
 import Lifecycle from './LifecycleApp/Lifecycle'
 import HigherOrderFun from './HigherOrderFunc/HigherOrderFunc'
+import GuestTracker from './GuestTracker/GuestTracker'
 
 class App extends Component {
   constructor(){
@@ -33,9 +34,10 @@ class App extends Component {
         <div className={styles.appWrapper}>
           {/* <PostApp></PostApp>
           { this.state.mountCmp && <Lifecycle dosto={this.state.dosto} updateProps={this.updateProps.bind(this)} unMount={this.unMount.bind(this)}></Lifecycle>} */}
-          <HigherOrderFun></HigherOrderFun>
+          {/* <HigherOrderFun></HigherOrderFun> */}
+          <GuestTracker></GuestTracker>
         </div>
-      </div>
+      </div> 
     )
   }
 }

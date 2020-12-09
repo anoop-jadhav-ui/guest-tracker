@@ -1,0 +1,32 @@
+.AuthFormWrapper{
+    padding:1rem 2rem 2rem 2rem;
+}
+
+.AuthFormHeader{
+    text-align: center;;
+}
+
+.inputContainer{
+    padding-top:2rem;
+}
+
+.buttonWrapper{
+    padding-top:2rem;
+    display:flex;
+    justify-content:center;
+}
+.secButtons{
+    display:flex;
+    justify-content: space-between;
+}
+
+.loginButton{
+    width:6rem;
+    
+}
+.loginButton span{
+    width:100%;
+    text-align:center;
+}
+
+

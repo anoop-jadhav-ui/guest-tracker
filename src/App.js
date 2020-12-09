@@ -1,10 +1,11 @@
 
 import {Component } from 'react'
 import styles from './App.module.css'
-import PostApp from './PostApp/PostApp'
-import Lifecycle from './LifecycleApp/Lifecycle'
-import HigherOrderFun from './HigherOrderFunc/HigherOrderFunc'
-import GuestTracker from './GuestTracker/GuestTracker'
+// import PostApp from './PostApp/PostApp'
+// import Lifecycle from './LifecycleApp/Lifecycle'
+// import HigherOrderFun from './HigherOrderFunc/HigherOrderFunc'
+// import GuestTracker from './GuestTracker/GuestTracker'
+import GuestManager from './GuestManager/GuestManager'
 
 class App extends Component {
   constructor(){
@@ -35,7 +36,8 @@ class App extends Component {
           {/* <PostApp></PostApp>
           { this.state.mountCmp && <Lifecycle dosto={this.state.dosto} updateProps={this.updateProps.bind(this)} unMount={this.unMount.bind(this)}></Lifecycle>} */}
           {/* <HigherOrderFun></HigherOrderFun> */}
-          <GuestTracker></GuestTracker>
+          {/* <GuestTracker></GuestTracker> */}
+          <GuestManager></GuestManager>
         </div>
       </div> 
     )

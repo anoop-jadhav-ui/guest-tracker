@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Anoop Jadhav",
+    "contact": "7718944156",
+    "guestOf": "groom"
+  },
+  {
+    "id": 2,
+    "name": "Harshada Raut",
+    "contact": "7718944156",
+    "guestOf": "Bride"
+  }
+]

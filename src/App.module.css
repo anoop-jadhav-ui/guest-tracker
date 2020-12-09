@@ -1,7 +1,4 @@
 
-.App{
-  
-}
 .appTitle{
   text-align:center;
   padding:1rem;
@@ -22,8 +19,5 @@
 .appWrapper{
   display:flex;
   justify-content:center;
-}
-
-.appWrapper > div + div{
-  margin-left:0.5rem;
+  flex-wrap: wrap;
 }

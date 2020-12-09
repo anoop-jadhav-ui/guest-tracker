@@ -1,0 +1,16 @@
+.Baner{
+    position:fixed;
+    left:0.5rem;
+    top:0.5rem;
+    width:calc(100vW - 1rem);
+    border-radius:0.25rem;
+    padding:1rem 1rem;
+    text-align: center;
+}
+
+.success{
+    background:#36C070;
+    color:white;
+    font-weight: bold;
+    font-size:1rem;
+}

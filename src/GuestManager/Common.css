@@ -1,0 +1,84 @@
+label{
+    padding-bottom:0.25rem;
+    display:block;
+    color:#828282;
+}
+h1{
+    font-size:1rem;
+}
+.logo {
+    font-size:0.875rem;
+    text-align:center;
+    padding:1rem;
+}
+.logo span:last-child{
+   color:#2F80ED;
+   font-weight:bold;
+}
+.greyBorder{
+    border:1px solid #E0E0E0;
+    border-radius:0.25rem;
+}
+
+.radioWrapper{
+    display:flex;
+}
+.radioWrapper > span{
+    padding-left:0.5rem;
+}
+.radioWrapper{
+    padding-top:0.5rem;
+}
+.inputWrapper + .inputWrapper{
+    padding-top:1rem;
+}
+
+.primaryButton{
+    background:#2F80ED;
+    color:white;
+    font-weight: bold;
+    appearance:none;
+    border:0;
+    padding: 0.2rem 0.8rem;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:34px;
+    cursor:pointer;
+}
+.secondaryButton{
+    background:white;
+    color:#2F80ED;
+    border:0;
+    font-weight: bold;
+    appearance:none;
+  
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:34px;
+    cursor:pointer;
+}
+.secondaryButton:focus,
+.secondaryButton:active{
+    border:0;
+    outline:none;
+}
+.addMemButton{
+    display:flex;
+    justify-content:flex-end;
+}
+.primaryButton > .icon,
+.secondaryButton > .icon{
+    font-size:1.2rem;
+    position:relative;
+    top:1px;
+
+}
+
+/* .primaryButton > .buttonText,
+.secondaryButton > .buttonText{
+    padding-left:0.5rem;
+} */

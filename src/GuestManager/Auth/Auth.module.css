@@ -20,13 +20,18 @@
     justify-content: space-between;
 }
 
-.loginButton{
-    width:6rem;
-    
-}
 .loginButton span{
     width:100%;
     text-align:center;
 }
+.registerButton{
+    color:#828282;
+    font-weight: normal;
+}
+.registerButton > .bold{
+    color:#2F80ED;
+}
+
+
 
 

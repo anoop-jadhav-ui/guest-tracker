@@ -43,7 +43,7 @@ const Input = forwardRef((props,ref) => {
                 <label htmlFor={props.name}>{props.label}</label>
                 {
                     props.options.map((ele) => {
-                    return <div key={ele.id} className="radioWrapper"><input ref={inputRef} name={props.name} type="radio" value={ele.value} onChange={props.onChange} checked={ele.checked}/><span>{ele.label}</span></div>
+                    return <div key={ele.id} className="radioWrapper"><input ref={inputRef} name={props.name} type="radio" value={ele.value} onChange={props.onChange} checked={ele.checked} /><span>{ele.label}</span></div>
                     })
                 }
                 <label ref={errorEleRef} className="error-label">{errorMessage}</label>
@@ -53,7 +53,7 @@ const Input = forwardRef((props,ref) => {
         return (
             <React.Fragment>
                 <label htmlFor={props.name}>{props.label}</label>
-                <input ref={inputRef} className={props.className} value={props.value} name={props.name} type={props.type} onChange={props.onChange}></input>
+                <input ref={inputRef} className={props.className} value={props.value} name={props.name} type={props.type} onChange={props.onChange} placeholder={props.placeholder}></input>
                 <label ref={errorEleRef} className="error-label">{errorMessage}</label>
             </React.Fragment>
         )

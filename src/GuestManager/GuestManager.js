@@ -1,18 +1,27 @@
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+import Auth from './Auth/Auth'
+import Banner from './Components/Banner/Banner'
+import HomePage from './HomePage/HomePage'
+
 import styles from './GuestManager.module.css'
 import './Common.css'
-import Auth from './Auth/Auth'
-import React, { Component, useEffect } from 'react';
+
+
 import firebase from "./firebaseConfig.js";
+import * as actions from './store/actions'
 
-let dataBase = firebase.database();
+// let dataBase = firebase.database();
 
-const GuestManager = () => {
-
+const GuestManager = (props) => {
+    console.clear();
     useEffect(() => {
         // let rootRef = dataBase.ref().child("/");
         // rootRef.on("value", (snapshot) => {
         //     console.log(snapshot.val());
-             
+
 
         //     let data = JSON.parse(JSON.stringify(snapshot.val()));
 
@@ -20,14 +29,38 @@ const GuestManager = () => {
         // });
 
     }, []);
+
     return (
-        <React.Fragment>
-            <div className="logo"><span>Guest</span><span>Tracker</span></div>
+        <BrowserRouter>
+            {props.showBanner && <Banner type={props.type} text={props.text}></Banner>}
+            {props.currentPage === 0 && <div className="logo"><span>Guest</span><span>Tracker</span></div>}
             <div className={styles.AppWrapper}>
-                <Auth></Auth>
+                <Switch>
+                    <Route path="/" exact component={Auth}></Route>
+                    <Route path="/home" component={HomePage}></Route>
+                    <Route path="/error" render={() => <div>Error</div>}></Route>
+                </Switch>
             </div>
-        </React.Fragment>
+        </BrowserRouter>
     )
 }
 
-export default GuestManager;
+const mapStoreToProps = (store) => {
+    return {
+        localId: store.authR.localId,
+        idToken: store.authR.idToken,
+        showBanner: store.bannerR.showBanner,
+        text: store.bannerR.text,
+        type: store.bannerR.type,
+        currentPage: store.navR.currentPage
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storeToken: (idToken, localId) => dispatch(actions.storeToken({ idToken, localId })),
+        clearToken: () => dispatch(actions.clearToken()),
+    }
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(GuestManager);

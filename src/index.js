@@ -4,10 +4,29 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { Provider } from 'react-redux'
+import { createStore, combineReducers } from 'redux'
+
+import authReducer from './GuestManager/store/authReducer'
+import bannerReducer from './GuestManager/store/bannerReducer'
+import navigationReducer from './GuestManager/store/navigationReducer'
+import userDetailsReducer from './GuestManager/store/userDetailsReducer'
+
+const rootReducer = combineReducers({
+  authR : authReducer,
+  bannerR : bannerReducer,
+  navR : navigationReducer,
+  userR:userDetailsReducer
+})
+
+const store = createStore(rootReducer);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

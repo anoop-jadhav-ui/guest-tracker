@@ -1,13 +1,15 @@
 import styles from './Banner.module.css'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const Banner = (props) => {
+
     let type;
     if (props.type) {
         type = props.type;
     } else {
         type = 'success'
     }
+
 
     return (
         <React.Fragment>

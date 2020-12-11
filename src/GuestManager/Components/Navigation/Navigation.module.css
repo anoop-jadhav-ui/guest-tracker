@@ -1,0 +1,15 @@
+.NavigationWrapper{
+    display:flex;
+    justify-content:space-between;
+}
+.arrow{
+    border-bottom:1px solid #2F80ED;
+    border-left:1px solid #2F80ED;
+    width:8px;
+    height:8px;
+    transform:rotate(45deg);
+    position:relative;
+    top:1px;
+    left:2px;
+    margin-right:0.3rem;
+}

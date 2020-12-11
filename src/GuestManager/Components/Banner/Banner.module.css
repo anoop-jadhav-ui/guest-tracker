@@ -1,16 +1,35 @@
 .Baner{
     position:fixed;
-    left:0.5rem;
-    top:0.5rem;
-    width:calc(100vW - 1rem);
-    border-radius:0.25rem;
+    left:0;
+    top:-52px;
+    width:100vW;
     padding:1rem 1rem;
     text-align: center;
+    animation : fly-in 0.75s ease-in-out forwards;
 }
-
 .success{
-    background:#36C070;
+    background:#0FA34C;
     color:white;
     font-weight: bold;
     font-size:1rem;
+}
+.failed{
+    background:#C60202;
+    color:white;
+    font-weight: bold;
+    font-size:1rem;
+}
+.warning{
+    background:#D6AB2B;
+    color:white;
+    font-weight: bold;
+    font-size:1rem;
+}
+@keyframes fly-in{
+    0%{
+        top:-52px;
+    }
+    100%{
+        top:0;
+    }
 }

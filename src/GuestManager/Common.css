@@ -33,52 +33,73 @@ h1{
     padding-top:1rem;
 }
 
-.primaryButton{
-    background:#2F80ED;
-    color:white;
-    font-weight: bold;
-    appearance:none;
-    border:0;
-    padding: 0.2rem 0.8rem;
-    border-radius:4px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    min-height:34px;
-    cursor:pointer;
+.text-align-left{
+    text-align: left;
 }
-.secondaryButton{
-    background:white;
+.text-align-right{
+    text-align: right;
+}
+
+ .bold{
+    font-weight: bold;
+}
+.color-primary{
     color:#2F80ED;
-    border:0;
-    font-weight: bold;
-    appearance:none;
-  
-    border-radius:4px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    min-height:34px;
-    cursor:pointer;
-}
-.secondaryButton:focus,
-.secondaryButton:active{
-    border:0;
-    outline:none;
-}
-.addMemButton{
-    display:flex;
-    justify-content:flex-end;
-}
-.primaryButton > .icon,
-.secondaryButton > .icon{
-    font-size:1.2rem;
-    position:relative;
-    top:1px;
-
 }
 
-/* .primaryButton > .buttonText,
-.secondaryButton > .buttonText{
-    padding-left:0.5rem;
-} */
+
+
+
+
+
+.padding-top-1_2{
+    padding-top:0.5rem  !important;;
+}
+
+.padding-1{
+    padding:1rem  !important;;
+}
+.padding-top-1{
+    padding-top:1rem  !important;;
+}
+
+
+.padding-left-1{
+    padding-left:1rem  !important;;
+}.padding-right-1{
+    padding-right:1rem  !important;;
+}.padding-bottom-1{
+    padding-top:1rem  !important;;
+}
+
+.padding-2{
+    padding:2rem !important;
+}
+.padding-top-2{
+    padding-top:2rem  !important;;
+}
+.padding-left-2{
+    padding-left:2rem  !important;;
+}.padding-right-2{
+    padding-right:2rem  !important;;
+}.padding-bottom-2{
+    padding-top:1rem  !important;;
+}
+
+.margin-top-1{
+    margin-top:1rem !important;
+}
+.margin-top-2{
+    margin-top:2rem !important;
+}
+
+.left{
+    text-align:left !important;
+}
+.right{
+    text-align:right !important;
+}
+
+.large-text{
+    font-size:1.5rem !important;
+}

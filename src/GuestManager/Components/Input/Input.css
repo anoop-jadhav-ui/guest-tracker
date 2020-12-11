@@ -13,7 +13,9 @@
 textarea,
 input[type=text],
 input[type=number],
-input[type=password]{
+input[type=password],
+input[type=date],
+input[type=time]{
     display:block;
     width:100%;
     height:2rem;
@@ -21,6 +23,7 @@ input[type=password]{
     appearance : none;
     border:1px solid lightgrey;
     border-radius: 4px;
+    font-family: 'Inter', sans-serif;
 }
 
 input[type=radio]{
@@ -34,3 +37,6 @@ textarea{
     appearance : none
 }
 
+input::placeholder{
+    color:#CFCECE;
+}

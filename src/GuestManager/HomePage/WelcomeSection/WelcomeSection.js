@@ -14,7 +14,7 @@ const WelcomeSection = (props) => {
 
     return (
         <div>
-            <div className={styles.sectionTitle}>List of all Events</div>
+            {props.events !== undefined && <div className={styles.sectionTitle}>List of all Events</div>}
             {
                 props.events !== undefined && props.events.map(ele => {
                     return (

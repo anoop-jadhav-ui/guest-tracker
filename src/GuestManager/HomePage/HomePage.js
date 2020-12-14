@@ -75,7 +75,7 @@ const HomePage = (props) => {
             //Get all events data
             axiosInstance.get('/users.json?auth=' + props.idToken)
                 .then((res) => {
-                    console.log(res);
+                   
                     Object.keys(res.data).forEach(key => {
                         let currentObj = res.data[key];
                         if (currentObj.userName === props.loggedInUserName) {
@@ -91,12 +91,15 @@ const HomePage = (props) => {
                             })
                             setEvents(convertObjectToArray(eventsArr));
                             setAllGuests(convertObjectToArray(res.data[key].allGuests))
-
-                            if (redirectedFromPage !== 'newguest') {
-                                goToSection('welcome');
-                            }
+                            
                         }
                     });
+                    
+                    if (redirectedFromPage !== 'newguest') {
+                        goToSection('welcome');
+                    }
+                    
+                   
 
                 }).catch((err) => {
                     //redirect to auth page as the user seems to be logged out.

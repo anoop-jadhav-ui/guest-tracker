@@ -237,7 +237,7 @@ const Auth = (props) => {
             if (validated) {
                 //LOGIN
                 let payload = {
-                    email: username,
+                    email: username.trim(),
                     displayName: fullname + '&&' + signUpas,
                     password: password,
                     returnSecureToken: true

@@ -70,11 +70,12 @@ const HomePage = (props) => {
         }
     }
 
-    function fetchEventsData() {
+    function fetchEventsData(redirectedFromPage) {
         try {
             //Get all events data
             axiosInstance.get('/users.json?auth=' + props.idToken)
                 .then((res) => {
+                    console.log(res);
                     Object.keys(res.data).forEach(key => {
                         let currentObj = res.data[key];
                         if (currentObj.userName === props.loggedInUserName) {
@@ -90,8 +91,10 @@ const HomePage = (props) => {
                             })
                             setEvents(convertObjectToArray(eventsArr));
                             setAllGuests(convertObjectToArray(res.data[key].allGuests))
-                            console.log(res.data[key].allGuests);
-                            goToSection('welcome');
+
+                            if (redirectedFromPage !== 'newguest') {
+                                goToSection('welcome');
+                            }
                         }
                     });
 
@@ -109,6 +112,19 @@ const HomePage = (props) => {
         props.goToPage(constants.HOME_PAGE);
         fetchEventsData();
     }, [])
+
+    useEffect(() => {
+        //updated selected event view 
+        if (selectedEvent) {
+            let currentSelectedEventId = selectedEvent.eventId;
+            events.forEach(ele => {
+                if (ele.eventId === currentSelectedEventId) {
+                    setSelectedEvent(ele);
+                }
+            })
+        }
+
+    }, [events])
 
     function goToSection(section) {
         try {
@@ -138,7 +154,6 @@ const HomePage = (props) => {
                 }
             })
             goToSection('viewevent');
-
         } catch (e) {
             console.log(e);
         }
@@ -217,7 +232,7 @@ const HomePage = (props) => {
                         () => <GuestListSection allGuests={allGuests} placeholder="Search for guests from other events"></GuestListSection>
                     }></Route>
                     <Route exact path={props.match.path + '/newguest'} render={
-                        () => <AddNewGuestSection event={selectedEvent} userNodeId={userNodeId} loggedInUserName={props.loggedInUserName} idToken={props.idToken} goToSection={goToSection} showHideBanner={props.showHideBanner}></AddNewGuestSection>
+                        () => <AddNewGuestSection fetchEventsData={fetchEventsData} event={selectedEvent} userNodeId={userNodeId} loggedInUserName={props.loggedInUserName} idToken={props.idToken} goToSection={goToSection} showHideBanner={props.showHideBanner}></AddNewGuestSection>
                     }></Route>
 
                     {/* </Switch> */}

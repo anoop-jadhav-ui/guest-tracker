@@ -3,9 +3,12 @@ import styles from './ViewEvent.module.css'
 
 import Button from '../../Components/Button/Button'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const ViewEventSection = (props) => {
+    useEffect(()=>{
+
+    },[props.event.guests])
     function updateGuestList(){
         try{
             props.goToSection('allguests')

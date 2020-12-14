@@ -32,10 +32,6 @@ const AddNewGuestSection = (props) => {
         checked: false
     }]);
 
-    useEffect(() => {
-
-    }, [])
-
     //functions
     function changeHandler(evt) {
         try {
@@ -60,7 +56,6 @@ const AddNewGuestSection = (props) => {
                     }
                     break;
                 case 'guestof':
-                    console.log(options);
                     let optionsTemp = [...options];
 
                     optionsTemp.forEach(ele => {
@@ -93,10 +88,6 @@ const AddNewGuestSection = (props) => {
         try {
             let validated = validateInputs();
             if (validated) {
-                console.log(guestName, contact, guestOf, familyName);
-                //POST A NEW ENTRY FOR THE USER
-                //rest/saving-data/fireblog/posts.json
-
                 let payload = {
                     contactNumber: contact,
                     familyName: familyName,
@@ -110,6 +101,7 @@ const AddNewGuestSection = (props) => {
                         //Add the same guest in all guests json
                         axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
                             .then((res) => {
+                                props.fetchEventsData('newguest');
                                 props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
                                 setTimeout(() => {
                                     props.showHideBanner({ show: false, type: '', text: '' })

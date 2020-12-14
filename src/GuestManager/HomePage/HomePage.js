@@ -17,6 +17,8 @@ import * as actions from '../store/actions'
 import * as constants from '../constants'
 import axiosInstance from '../axios'
 
+import { getId } from '../Iterators'
+
 const HomePage = (props) => {
     let firstName = '';
     if (props.displayName)
@@ -75,31 +77,57 @@ const HomePage = (props) => {
             //Get all events data
             axiosInstance.get('/users.json?auth=' + props.idToken)
                 .then((res) => {
-                   
+                    let newUser = true;
                     Object.keys(res.data).forEach(key => {
                         let currentObj = res.data[key];
                         if (currentObj.userName === props.loggedInUserName) {
                             //events for current user
                             setUserNodeId(key);
-                            let eventsArr = convertObjectToArray(res.data[key].events);
-                            eventsArr = eventsArr.sort((a, b) => {
-                                if (new Date(a.eventDate) < new Date(b.eventDate)) {
-                                    return 1;
-                                } else {
-                                    return -1
+                            if ('events' in res.data[key]) {
+                                let eventsArr = convertObjectToArray(res.data[key].events);
+                                eventsArr = eventsArr.sort((a, b) => {
+                                    if (new Date(a.eventDate) < new Date(b.eventDate)) {
+                                        return 1;
+                                    } else {
+                                        return -1
+                                    }
+                                })
+                                setEvents(eventsArr);
+                                if ("allGuests" in res.data[key] && res.data[key]['allGuests'] != undefined) {
+                                    setAllGuests(convertObjectToArray(res.data[key].allGuests))
                                 }
-                            })
-                            setEvents(convertObjectToArray(eventsArr));
-                            setAllGuests(convertObjectToArray(res.data[key].allGuests))
-                            
+
+                            }
+                            newUser = false;
                         }
                     });
-                    
+
+                    if (newUser) {
+                        let payload = {
+                            userName: props.loggedInUserName,
+                            userId: getId.next().value,
+                            displayName: props.displayName
+                        }
+                        axiosInstance.post(`/users.json?auth=` + props.idToken, payload)
+                            .then((res) => {
+                                props.showHideBanner({ show: true, type: 'success', text: "User Record Created Successfully." })
+                                setTimeout(() => {
+                                    props.showHideBanner({ show: false, type: '', text: '' })
+                                }, constants.BANNER_TIME);
+                            }).catch((err) => {
+                                props.showHideBanner({ show: true, type: 'failed', text: "Sorry Coun't create user record. Please login again and try." })
+                                setTimeout(() => {
+                                    props.showHideBanner({ show: false, type: '', text: '' })
+                                }, constants.BANNER_TIME);
+                            })
+                    }
+
+
                     if (redirectedFromPage !== 'newguest') {
                         goToSection('welcome');
                     }
-                    
-                   
+
+
 
                 }).catch((err) => {
                     //redirect to auth page as the user seems to be logged out.

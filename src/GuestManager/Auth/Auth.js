@@ -96,9 +96,9 @@ const Auth = (props) => {
             if (username === '') {
                 flag = false;
                 usernameRef.current.highlightInput();
-            } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(username)) {
+            } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(username.trim())) {
                 flag = false;
-                usernameRef.current.highlightInput('Please enter a valid email address.');
+                usernameRef.current.highlightInput('');
             } else {
                 usernameRef.current.removeHighlights();
             }

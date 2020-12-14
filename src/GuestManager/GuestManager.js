@@ -16,7 +16,6 @@ import * as actions from './store/actions'
 // let dataBase = firebase.database();
 
 const GuestManager = (props) => {
-    console.clear();
     useEffect(() => {
         // let rootRef = dataBase.ref().child("/");
         // rootRef.on("value", (snapshot) => {

@@ -8,7 +8,7 @@ import * as actions from '../store/actions'
 import Button from '../Components/Button/Button'
 
 const Auth = (props) => {
-
+    
     //STATES
     // let [authenticationStatus, setauthenticationStatus] = useState('');
     let [authType, setAuthType] = useState('Login');
@@ -98,7 +98,7 @@ const Auth = (props) => {
                 usernameRef.current.highlightInput();
             } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(username)) {
                 flag = false;
-                usernameRef.current.highlightInput('email');
+                usernameRef.current.highlightInput('Please enter a valid email address.');
             } else {
                 usernameRef.current.removeHighlights();
             }
@@ -156,8 +156,8 @@ const Auth = (props) => {
 
                 setTimeout(() => {
                     props.showHideBanner({ show: false, type: '', text: '' })
-                }, 3000);
-            }, 3000);
+                }, constants.BANNER_TIME);
+            }, constants.BANNER_TIME);
 
         } catch (e) {
             console.log(e);
@@ -167,15 +167,13 @@ const Auth = (props) => {
         try {
             axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`, payload)
                 .then((response) => {
-                    console.log(response);
                     //User registered
                     // setauthenticationStatus(constants.REGISTRATION_SUCCESS);
-
                     props.showHideBanner({ show: true, type: 'success', text: 'Sign up successful. Please Login to continue...' })
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
                         setAuthType('Login');
-                    }, 3000);
+                    }, constants.BANNER_TIME);
                 })
                 .catch((err) => {
                     //User Already present 
@@ -185,7 +183,7 @@ const Auth = (props) => {
                     props.showHideBanner({ show: true, type: 'failed', text: 'Sign up failed. Incorrect Username or Password.' })
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
-                    }, 3000);
+                    }, constants.BANNER_TIME);
                 })
 
         } catch (e) {
@@ -215,7 +213,7 @@ const Auth = (props) => {
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
                         props.history.push({ pathname: '/home' });
-                    }, 3000);
+                    }, constants.BANNER_TIME);
                     props.goToPage(constants.HOME_PAGE);
                 })
                 .catch((err) => {
@@ -225,7 +223,7 @@ const Auth = (props) => {
                     props.showHideBanner({ show: true, type: 'failed', text: 'Login Failed. Incorrect Username or Password.' })
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
-                    }, 3000);
+                    }, constants.BANNER_TIME);
                 })
 
         } catch (e) {

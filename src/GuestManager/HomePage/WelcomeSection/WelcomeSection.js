@@ -2,6 +2,7 @@ import Button from '../../Components/Button/Button'
 import styles from './WelcomeSection.module.css'
 
 const WelcomeSection = (props) => {
+   
     function cardClickHandler(evt) {
         try {
             let eventId = evt.target.dataset.cardKey;

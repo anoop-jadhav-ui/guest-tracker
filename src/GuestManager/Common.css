@@ -29,9 +29,29 @@ h1{
 .radioWrapper{
     padding-top:0.5rem;
 }
-.inputWrapper + .inputWrapper{
+
+.inputWrapper + .inputWrapper,
+.inputWrapper + .inputWrapperRow,
+.inputWrapperRow + .inputWrapper{
     padding-top:1rem;
 }
+
+.inputWrapperRow{
+    display:flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;;
+}
+.inputWrapperRow > .inputWrapper + .inputWrapper{
+   padding-top:0;
+}
+.dateInput{
+    width:60%;
+}
+.timeInput{
+    width:35%;
+}
+
+
 
 .text-align-left{
     text-align: left;

@@ -12,3 +12,5 @@ export const HOME_PAGE = "homepage";
 export const EVENT_PAGE = "eventpage";
 export const GUEST_LIST_PAGE = "guestlistpage";
 
+export const BANNER_TIME=2000;
+

@@ -7,7 +7,8 @@ import PageHeader from '../Components/PageHeader/PageHeader'
 import WelcomeSection from './WelcomeSection/WelcomeSection'
 import ViewEventSection from './ViewEventSection/ViewEventSection'
 import AddEventSection from './AddEventSection/AddEventSection'
-
+import GuestListSection from './GuestListSection/GuestListSection'
+import AddNewGuestSection from './AddNewGuestSection/AddNewGuestSection'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Route, useHistory, Switch } from 'react-router-dom'
@@ -22,100 +23,91 @@ const HomePage = (props) => {
         firstName = props.displayName.split(' ')[0];
 
     let routeHistory = useHistory();
+
+
     let [currentSection, SetCurrentSection] = useState('welcome');
     let [selectedEvent, setSelectedEvent] = useState();
     let [pageHeader, setPageHeader] = useState();
     let [pageSubHeader, setPageSubHeader] = useState();
-
-    // let sectionStepMap = [
-    //     {
-    //         step: 1,
-    //         pageName: 'welcome'
-    //     },
-    //     {
-    //         step: 2,
-    //         pageName: 'viewevent'
-    //     },
-    //     {
-    //         step: 3,
-    //         pageName: 'addevent'
-    //     },
-    //     {
-    //         step: 4,
-    //         pageName: 'addguest'
-    //     },
-    //     {
-    //         step: 5,
-    //         pageName: 'viewallguests'
-    //     }
-    // ]
-
     let [events, setEvents] = useState();
+    let [allGuests, setAllGuests] = useState();
+
+    let [userNodeId, setUserNodeId] = useState();
 
     function convertObjectToArray(obj) {
         try {
-            let arr = [];
-            Object.keys(obj).forEach(key => {
-                arr.push(obj[key]);
-            });
-            return arr;
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    function convertEventObjectToArray(obj) {
-        try {
             let events = [];
-            Object.keys(obj).forEach(key => {
-                //events for current user
-                let guests = convertObjectToArray(obj[key]['guests']);
-                let currentObj = {
-                    ...obj[key],
-                    'guests': [...guests]
-                }
-                events.push(currentObj);
-            });
+            console.log(Array.isArray(obj))
+            if (Array.isArray(obj)) {
+                return obj;
+            } else {
+                Object.keys(obj).forEach(key => {
+                    //events for current user
+                    let currentObj;
+                    if ("guests" in obj[key] && obj[key]['guests'] != undefined) {
+                        let guests = convertObjectToArray(obj[key]['guests']);
 
-            return events;
+                        currentObj = {
+                            ...obj[key],
+                            'guests': [...guests]
+                        }
+                    } else {
+                        currentObj = {
+                            ...obj[key],
+                        }
+                    }
+
+                    currentObj.nodeId = key;
+
+                    events.push(currentObj);
+                });
+
+                return events;
+            }
+
         } catch (e) {
             console.log(e);
         }
     }
 
+    function fetchEventsData() {
+        try {
+            //Get all events data
+            axiosInstance.get('/users.json?auth=' + props.idToken)
+                .then((res) => {
+                    Object.keys(res.data).forEach(key => {
+                        let currentObj = res.data[key];
+                        if (currentObj.userName === props.loggedInUserName) {
+                            //events for current user
+                            setUserNodeId(key);
+                            let eventsArr = convertObjectToArray(res.data[key].events);
+                            eventsArr = eventsArr.sort((a, b) => {
+                                if (new Date(a.eventDate) < new Date(b.eventDate)) {
+                                    return 1;
+                                } else {
+                                    return -1
+                                }
+                            })
+                            setEvents(convertObjectToArray(eventsArr));
+                            setAllGuests(convertObjectToArray(res.data[key].allGuests))
+                            console.log(res.data[key].allGuests);
+                            goToSection('welcome');
+                        }
+                    });
+
+                }).catch((err) => {
+                    //redirect to auth page as the user seems to be logged out.
+                    console.log(err);
+                })
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
     //Functions
     useEffect(() => {
         props.goToPage(constants.HOME_PAGE);
-        //Get all events data
-        axiosInstance.get('/users.json?auth=' + props.idToken)
-            .then((res) => {
-                Object.keys(res.data).forEach(key => {
-                    let currentObj = res.data[key];
-                    if (currentObj.userName === props.loggedInUserName) {
-                        //events for current user
-                        setEvents(convertEventObjectToArray(res.data[key].events));
-                        goToSection('welcome');
-
-                    }
-                });
-            }).catch((err) => {
-                //redirect to auth page as the user seems to be logged out.
-                console.log(err);
-            })
-
-        // let payload = {
-        //     type : 'organiser',
-        //     userId : 'akshayj08@gmail.com'
-        // }
-        // axiosInstance.post('/users.json?auth=' + props.idToken, payload)
-        //     .then((res) => {
-        //         console.log(res.data);
-        //     }).catch((err) => {
-
-        //         //redirect to auth page as the user seems to be logged out.
-        //         console.log(err);
-        //     })
-
+        fetchEventsData();
     }, [])
 
     function goToSection(section) {
@@ -126,14 +118,15 @@ const HomePage = (props) => {
             console.log(e);
         }
     }
-    function onGoBack(){
-        try{
+    function onGoBack() {
+        try {
             console.log(currentSection);
-            if(currentSection === 'addevent' || currentSection === 'viewevent'){
+            if (currentSection === 'addevent' || currentSection === 'viewevent') {
                 goToSection('welcome')
-                console.log(currentSection);
+            } else if (currentSection === 'allguests' || currentSection === 'newguest') {
+                goToSection('viewevent')
             }
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     }
@@ -150,7 +143,6 @@ const HomePage = (props) => {
             console.log(e);
         }
     }
-
     function createNewEventHandler(evt) {
         try {
             goToSection('addevent');
@@ -158,28 +150,43 @@ const HomePage = (props) => {
             console.log(e);
         }
     }
-
     function getHeader() {
-        if (currentSection === 'welcome') {
-            setPageHeader(`Welcome ${firstName},`)
-            setPageSubHeader("Create, Update or Add new members to the events listed below.")
-        } else if (currentSection === 'viewevent') {
-            setPageHeader(selectedEvent.eventName)
-            setPageSubHeader("")
-        }else if(currentSection === 'addevent'){
-            setPageHeader("Create Event")
-            setPageSubHeader("Fill the following form to create a new event. After the event is created you can add guests.")
+        switch (currentSection) {
+            case 'welcome':
+                setPageHeader(`Welcome ${firstName},`)
+                setPageSubHeader("Create, Update or Add new members to the events listed below.");
+                break;
+            case 'viewevent':
+                setPageHeader(selectedEvent.eventName)
+                setPageSubHeader("")
+                break;
+            case 'addevent':
+                setPageHeader("Create Event")
+                setPageSubHeader("Fill the following form to create a new event. After the event is created you can add guests.")
+                break;
+            case 'newguest':
+                setPageHeader("Add New Guest")
+                setPageSubHeader("Fill the following form to create a new guest for the selected event.");
+                break;
+            case 'allguests':
+                setPageHeader("All Guests")
+                setPageSubHeader("Following is the total list of guests coming in all your events.");
+            default: break;
+
         }
     }
 
     useEffect(() => {
         getHeader()
+        if (currentSection === 'welcome') {
+            fetchEventsData();
+        }
     }, [currentSection])
 
     return (
         <Page
             navigation={
-                <Navigation showBackButton={currentSection!=='welcome'} showLogoutButton={props.currentPage === 1 || props.currentPage === 2} onGoBack={onGoBack}></Navigation>
+                <Navigation showBackButton={currentSection !== 'welcome'} showLogoutButton={props.currentPage === 1 || props.currentPage === 2} onGoBack={onGoBack}></Navigation>
             }
             header={
                 <PageHeader header={
@@ -201,15 +208,18 @@ const HomePage = (props) => {
                         () => <WelcomeSection events={events} cardClickHandler={cardClickHandler} createNewEventHandler={createNewEventHandler}></WelcomeSection>
                     }></Route>
                     <Route exact path={props.match.path + '/viewevent'} render={
-                        () => <ViewEventSection event={selectedEvent}></ViewEventSection>
+                        () => <ViewEventSection event={selectedEvent} goToSection={goToSection}></ViewEventSection>
                     }></Route>
-                    {/* <Route exact path={props.match.path + '/addevent'} render={
-                        () => <AddEventSection event={selectedEvent}></AddEventSection>
-                    }></Route> */}
-                    <Route exact path={props.match.path + '/welcome'} render={
-                        () => <AddEventSection event={selectedEvent}></AddEventSection>
+                    <Route exact path={props.match.path + '/addevent'} render={
+                        () => <AddEventSection userNodeId={userNodeId} loggedInUserName={props.loggedInUserName} event={selectedEvent} events={events} idToken={props.idToken} showHideBanner={props.showHideBanner} goToSection={goToSection}></AddEventSection>
                     }></Route>
-                    
+                    <Route exact path={props.match.path + '/allguests'} render={
+                        () => <GuestListSection allGuests={allGuests} placeholder="Search for guests from other events"></GuestListSection>
+                    }></Route>
+                    <Route exact path={props.match.path + '/newguest'} render={
+                        () => <AddNewGuestSection event={selectedEvent} userNodeId={userNodeId} loggedInUserName={props.loggedInUserName} idToken={props.idToken} goToSection={goToSection} showHideBanner={props.showHideBanner}></AddNewGuestSection>
+                    }></Route>
+
                     {/* </Switch> */}
                 </React.Fragment>
             }
@@ -230,6 +240,7 @@ const mapStoreToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         goToPage: (currentPageName) => dispatch(actions.goToPage(currentPageName)),
+        showHideBanner: (data) => dispatch(actions.showBannerAction(data)),
     }
 }
 export default connect(mapStoreToProps, mapDispatchToProps)(HomePage);

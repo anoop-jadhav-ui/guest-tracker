@@ -6,6 +6,20 @@ import Button from '../../Components/Button/Button'
 import React from 'react'
 
 const ViewEventSection = (props) => {
+    function updateGuestList(){
+        try{
+            props.goToSection('allguests')
+        }catch(e){
+            console.log(e);
+        }
+    }
+    function addNewGuest(){
+        try{
+            props.goToSection('newguest')
+        }catch(e){
+            console.log(e);
+        }
+    }
     return (
         <React.Fragment>
             <div className={styles.card}></div>
@@ -20,18 +34,17 @@ const ViewEventSection = (props) => {
                     <div className={styles.data}>{props.event.eventDate + ' - ' + props.event.eventTime}</div>
                 </div>
                 <div className={styles.item}>
-                    <div className={styles.label}>Total Guest</div>
-                    <div className={styles.data + ' bold large-text'}>100</div>
+                    <div className={styles.label}>Total Guests</div>
+                    <div className={styles.data + ' bold large-text'}>{"guests" in props.event ? props.event.guests.length : '0'}</div>
                 </div>
             </div>
             <div className={styles.buttonWrapper}>
-                <Button type="neutral">Update Guest List</Button>
-                <Button type="primary">Add New Guest</Button>
+                <Button type="neutral" onClick={updateGuestList}>Update Guest List</Button>
+                <Button type="primary" onClick={addNewGuest}>Add New Guest</Button>
             </div>
         </React.Fragment>
     )
 }
-
 export default ViewEventSection;
 
 

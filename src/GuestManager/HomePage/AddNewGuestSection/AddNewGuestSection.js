@@ -6,11 +6,12 @@ import * as constants from '../../constants'
 import axiosInstance from '../../axios'
 import { getId } from '../../Iterators'
 const AddNewGuestSection = (props) => {
+    
     //States
     let [eventName, setEventName] = useState(props.event.eventName);
     let [guestName, setGuestName] = useState('');
     let [contact, setContact] = useState('');
-    let [guestOf, setGuestOf] = useState('Bride');
+    let [guestOf, setGuestOf] = useState('');
     let [familyName, setFamilyName] = useState('');
 
     //refs
@@ -24,7 +25,7 @@ const AddNewGuestSection = (props) => {
         id: 0,
         label: 'Bride',
         value: 'Bride',
-        checked: true
+        checked: false
     }, {
         id: 1,
         label: 'Groom',
@@ -32,7 +33,36 @@ const AddNewGuestSection = (props) => {
         checked: false
     }]);
 
+    useEffect(() => {
+        if (props.selectedGuest !== undefined) {
+            setGuestName(props.selectedGuest.guestName);
+            setContact(props.selectedGuest.contactNumber);
+            setGuestOf(props.selectedGuest.guestOf);
+            setOptionFun(props.selectedGuest.guestOf);
+            setFamilyName(props.selectedGuest.familyName);
+        }
+
+    }, [props.selectedGuest])
     //functions
+
+    function setOptionFun(inputValue){
+        try{
+            let flag = false;
+            let optionsTemp = [...options];
+            optionsTemp.forEach(ele => {
+                if (ele.value === inputValue) {
+                    ele.checked = true;
+                    flag = true;
+                } else {
+                    ele.checked = false;
+                }
+            })
+            setOptions(optionsTemp);
+            return true;
+        }catch(e){
+            console.log(e);
+        }
+    }
     function changeHandler(evt) {
         try {
             let inputName = evt.target.name;
@@ -56,16 +86,7 @@ const AddNewGuestSection = (props) => {
                     }
                     break;
                 case 'guestof':
-                    let optionsTemp = [...options];
-
-                    optionsTemp.forEach(ele => {
-                        if (ele.value === inputValue) {
-                            ele.checked = true;
-                        } else {
-                            ele.checked = false;
-                        }
-                    })
-                    setOptions(optionsTemp);
+                    setOptionFun(inputValue);
                     setGuestOf(inputValue);
                     break;
                 case 'familyname':
@@ -84,43 +105,106 @@ const AddNewGuestSection = (props) => {
         }
     }
 
+    function checkIfValuesChanged() {
+        try {
+            let flag = false;
+            if (contact !== props.selectedGuest.contactNumber) flag = true;
+            if (guestOf !== props.selectedGuest.guestOf) flag = true;
+            if (familyName !== props.selectedGuest.familyName) flag = true;
+            if (guestName !== props.selectedGuest.guestName) flag = true;
+
+            return flag;
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
     function saveEventHandler(evt) {
         try {
             let validated = validateInputs();
             if (validated) {
-                let payload = {
-                    contactNumber: contact,
-                    familyName: familyName,
-                    guestOf: guestOf,
-                    guestName: guestName,
-                    guestId: getId.next().value
-                }
-                axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, payload)
-                    .then((res) => {
-                        let newGuestId = res.data.name;
-                        //Add the same guest in all guests json
-                        axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
+                let payload;
+                if (props.selectedGuest !== undefined) {
+                    payload = {
+                        contactNumber: contact,
+                        familyName: familyName,
+                        guestOf: guestOf,
+                        guestName: guestName,
+                    }
+
+                    let changed = checkIfValuesChanged();
+                    if (changed) {
+                        // axiosInstance.patch(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${props.selectedGuest.nodeId}.json?auth=` + props.idToken, payload)
+                        axiosInstance.patch(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${props.selectedGuest.nodeId}.json?auth=` + props.idToken, payload)
                             .then((res) => {
-                                props.fetchEventsData('newguest');
-                                props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
+                                //Add the same guest in all guests json
+                                //search for that node in all guests 
+                                let nodeId;
+                                props.allGuests.forEach(ele=>{
+                                    if(ele.guestId === props.selectedGuest.guestId){
+                                        nodeId = ele.nodeId;
+                                    }
+                                })
+                                axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
+                                    .then((res) => {
+                                        //Add the same guest in all guests json
+                                        props.fetchEventsData('editguest')
+                                        props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
+                                        setTimeout(() => {
+                                            props.showHideBanner({ show: false, type: '', text: '' })
+                                            props.goToSection('eventguests');
+                                        }, constants.BANNER_TIME);
+                                    }).catch(err=>console.log(err));
+                            }).catch((err) => {
+                                props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
                                 setTimeout(() => {
                                     props.showHideBanner({ show: false, type: '', text: '' })
-                                    props.goToSection('viewevent');
+                                    props.goToSection('eventguests');
                                 }, constants.BANNER_TIME);
-                            }).catch(err => {
-                                //remove the guest from events if an error
-                                axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${newGuestId}?auth=` + props.idToken, payload)
-                                    .catch(err => {
-                                        console.log(err);
-                                    })
                             })
-                    }).catch((err) => {
-                        props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
+                    } else {
+                        props.showHideBanner({ show: true, type: 'warning', text: "Nothing has Changed." })
                         setTimeout(() => {
                             props.showHideBanner({ show: false, type: '', text: '' })
-                            props.goToSection('viewevent');
                         }, constants.BANNER_TIME);
-                    })
+                    }
+
+                } else {
+                    payload = {
+                        contactNumber: contact,
+                        familyName: familyName,
+                        guestOf: guestOf,
+                        guestName: guestName,
+                        guestId: getId.next().value
+                    }
+
+                    axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, payload)
+                        .then((res) => {
+                            let newGuestId = res.data.name;
+                            //Add the same guest in all guests json
+                            axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
+                                .then((res) => {
+                                    props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
+                                    setTimeout(() => {
+                                        props.fetchEventsData('newguest')
+                                        props.showHideBanner({ show: false, type: '', text: '' })
+                                        props.goToSection('viewevent');
+                                    }, constants.BANNER_TIME);
+                                }).catch(err => {
+                                    //remove the guest from events if an error
+                                    axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${newGuestId}?auth=` + props.idToken, payload)
+                                        .catch(err => {
+                                            console.log(err);
+                                        })
+                                })
+                        }).catch((err) => {
+                            props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
+                            setTimeout(() => {
+                                props.showHideBanner({ show: false, type: '', text: '' })
+                                props.goToSection('viewevent');
+                            }, constants.BANNER_TIME);
+                        })
+                }
             }
         } catch (e) {
             console.log(e);

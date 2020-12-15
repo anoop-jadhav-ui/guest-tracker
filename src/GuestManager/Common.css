@@ -123,3 +123,13 @@ h1{
 .large-text{
     font-size:1.5rem !important;
 }
+
+ion-icon {
+    font-size: 1.2rem;
+}
+ion-icon[name=trash-outline]{
+    color:red;
+}
+ion-icon[name=create-outline]{
+    font-size:1.4rem;
+}

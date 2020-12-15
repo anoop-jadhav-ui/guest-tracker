@@ -73,7 +73,6 @@ const AddEventSection = (props) => {
         try {
             let validated = validateInputs();
             if (validated) {
-                console.log(eventName, date, time, address);
                 let payload = {
                     userName: props.loggedInUserName,
                     eventAddress: address,
@@ -84,6 +83,7 @@ const AddEventSection = (props) => {
                 }
                 axiosInstance.post(`/users/${props.userNodeId}/events.json?auth=` + props.idToken, payload)
                     .then((res) => {
+                        props.fetchEventsData('addevent');
                         props.showHideBanner({ show: true, type: 'success', text: "Event Created Successfully." })
                         setTimeout(() => {
                             props.showHideBanner({ show: false, type: '', text: '' })

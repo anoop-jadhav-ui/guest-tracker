@@ -4,6 +4,12 @@
 
 .guestTable{
     padding-top:1.5rem;
+    padding-bottom:4rem;
+}
+.selectAllButton{
+    display:flex;
+    justify-content:flex-end;
+    padding-bottom:0.5rem;
 }
 .row{
     display:flex;
@@ -19,6 +25,8 @@
     margin-top:0.5rem;
 }
 .tableBody .row {
+    display:flex;
+    align-items: center;
     background-color:#F2F2F2;
     padding:0 0.5rem;
 }
@@ -61,4 +69,14 @@
 .checkbox{
     width:1rem;
     height:1rem;
+}
+
+.buttonsWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 3.5rem;
+}
+.buttonsWrapper Button +  Button{
+    margin-top:0;
 }

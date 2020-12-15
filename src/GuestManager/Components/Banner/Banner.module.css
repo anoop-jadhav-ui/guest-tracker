@@ -6,6 +6,7 @@
     padding:1rem 1rem;
     text-align: center;
     animation : fly-in 0.75s ease-in-out forwards;
+    z-index:10000000;
 }
 .success{
     background:#0FA34C;

@@ -6,9 +6,12 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import * as actions from '../store/actions'
 import Button from '../Components/Button/Button'
+import axiosInstance from '../axios'
+
+import { getId } from '../Iterators'
 
 const Auth = (props) => {
-    
+
     //STATES
     // let [authenticationStatus, setauthenticationStatus] = useState('');
     let [authType, setAuthType] = useState('Login');
@@ -168,12 +171,19 @@ const Auth = (props) => {
             axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`, payload)
                 .then((response) => {
                     //User registered
-                    // setauthenticationStatus(constants.REGISTRATION_SUCCESS);
-                    props.showHideBanner({ show: true, type: 'success', text: 'Sign up successful. Please Login to continue...' })
-                    setTimeout(() => {
-                        props.showHideBanner({ show: false, type: '', text: '' })
-                        setAuthType('Login');
-                    }, constants.BANNER_TIME);
+                    let payload = {
+                        userName: username,
+                        userId: getId.next().value,
+                        displayName: fullname
+                    }
+                    axiosInstance.post(`/users.json?auth=` + response.data.idToken, payload)
+                        .then((res) => {
+                            props.showHideBanner({ show: true, type: 'success', text: 'Sign up successful. Please Login to continue...' })
+                            setTimeout(() => {
+                                props.showHideBanner({ show: false, type: '', text: '' })
+                                setAuthType('Login');
+                            }, constants.BANNER_TIME);
+                        })
                 })
                 .catch((err) => {
                     //User Already present 
@@ -204,7 +214,7 @@ const Auth = (props) => {
                     props.setUserDetails({
                         userType: splitArr[1],
                         displayName: splitArr[0],
-                        loggedInUserName : response.data.email
+                        loggedInUserName: response.data.email
                     })
                     //User registered
                     // setauthenticationStatus(constants.AUTHENTICATION_SUCCESS);
@@ -318,7 +328,7 @@ const mapDispatchToProps = (dispatch) => {
         clearToken: () => dispatch(actions.clearToken()),
         showHideBanner: (data) => dispatch(actions.showBannerAction(data)),
         goToPage: (currentPageName) => dispatch(actions.goToPage(currentPageName)),
-        setUserDetails : (data) => dispatch(actions.setUserDetails(data))
+        setUserDetails: (data) => dispatch(actions.setUserDetails(data))
     }
 }
 export default connect(mapStoreToProps, mapDispatchToProps)(Auth);

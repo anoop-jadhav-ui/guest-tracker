@@ -9,13 +9,13 @@
     display:block;
 }
 
-
 textarea,
 input[type=text],
 input[type=number],
 input[type=password],
 input[type=date],
 input[type=time]{
+    background:white;
     display:block;
     width:100%;
     height:2rem;

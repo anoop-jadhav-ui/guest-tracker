@@ -11,14 +11,14 @@ const ViewEventSection = (props) => {
     },[props.event.guests])
     function updateGuestList(){
         try{
-            props.goToSection('allguests')
+            props.goToSection('eventguests')
         }catch(e){
             console.log(e);
         }
     }
     function addNewGuest(){
         try{
-            props.goToSection('newguest')
+            props.goToSection('newguestconfirm')
         }catch(e){
             console.log(e);
         }

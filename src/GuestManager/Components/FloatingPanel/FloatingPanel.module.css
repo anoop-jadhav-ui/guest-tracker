@@ -1,0 +1,12 @@
+.floatingPanel{
+    width:100%;
+    background:white;
+    position:fixed;
+    padding:1rem;
+    left:0;
+    box-shadow: lightgrey 4px -4px 10px;
+}
+
+.bottom{
+    bottom:0;
+}

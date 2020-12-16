@@ -206,10 +206,10 @@ const Auth = (props) => {
     }
     function LoginUser(payload) {
         try {
-            props.showLoader(true);
+            // props.showLoader(true);
             axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`, payload)
                 .then((response) => {
-                    props.showLoader(false);
+                    // props.showLoader(false);
                     setLoginExpireFunctionality(response.data.expiresIn);
                     props.storeToken(response.data.idToken, response.data.localId, response.data.displayName);
 
@@ -234,7 +234,7 @@ const Auth = (props) => {
                   
                 })
                 .catch((err) => {
-                    props.showLoader(false);
+                    // props.showLoader(false);
                     //User Already present 
                     // setauthenticationStatus(constants.AUTHENTICATION_FAILED);
                     setPassword('');

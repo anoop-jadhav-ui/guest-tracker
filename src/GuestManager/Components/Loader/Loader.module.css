@@ -9,10 +9,12 @@
     text-align:center;
 }
 .loading{
-    font-size:1rem;
-    font-weight: bold;
+    font-size:1.5rem;
     position: fixed;
     left: 50%;
     top: 50%;
     transform : translateX(-50%) translateY(-50%);
+}
+.blue{
+    color:#2F80ED;
 }

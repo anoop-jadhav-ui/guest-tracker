@@ -18,7 +18,7 @@ const WelcomeSection = (props) => {
             {
                 props.events !== undefined && props.events.map(ele => {
                     return (
-                        <div key={ele.eventId} className={styles.card} data-card-key={ele.eventId} onClick={cardClickHandler}>
+                        <div key={ele.eventId} className={styles.card + " gradient"} data-card-key={ele.eventId} onClick={cardClickHandler}>
                             <div className={styles.cardTitle}>{ele.eventName}</div>
                             <div className={styles.clickToViewButton}>{`Click to View Event >`}</div>
                         </div>

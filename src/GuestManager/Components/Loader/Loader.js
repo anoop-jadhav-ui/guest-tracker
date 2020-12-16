@@ -6,7 +6,7 @@ const Loader = () => {
              <Logo></Logo>
             <div className={styles.wrapper}>
            
-            <div className={styles.loading}>Loading...</div>
+            <div className={styles.loading}>Loading<span className={styles.blue}>...</span></div>
             </div>
         </div>
     )

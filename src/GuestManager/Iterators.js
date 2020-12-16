@@ -4,5 +4,3 @@ function* idGenerator(){
 }
 
 export const getId = idGenerator();
-
-

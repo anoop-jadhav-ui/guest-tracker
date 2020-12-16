@@ -81,8 +81,10 @@ const AddEventSection = (props) => {
                     eventName: eventName,
                     eventId: getId.next().value
                 }
+                props.showLoader(true);
                 axiosInstance.post(`/users/${props.userNodeId}/events.json?auth=` + props.idToken, payload)
                     .then((res) => {
+                        props.showLoader(false);
                         props.fetchEventsData('addevent');
                         props.showHideBanner({ show: true, type: 'success', text: "Event Created Successfully." })
                         setTimeout(() => {
@@ -90,6 +92,7 @@ const AddEventSection = (props) => {
                             props.goToSection('welcome');
                         }, constants.BANNER_TIME);
                     }).catch((err) => {
+                        props.showLoader(false);
                         props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
                         setTimeout(() => {
                             props.showHideBanner({ show: false, type: '', text: '' })

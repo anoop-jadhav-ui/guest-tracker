@@ -167,8 +167,10 @@ const GuestListSection = (props) => {
                     eleToBeDeleted = ele;
                 }
             })
+            props.showLoader(true);
             axiosInstance.delete(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${eleToBeDeleted.nodeId}.json?auth=` + props.idToken)
                 .then((res) => {
+                    props.showLoader(false);
                     props.fetchEventsData('eventguests');
                     props.goToSection('viewevent');
 
@@ -177,6 +179,7 @@ const GuestListSection = (props) => {
                         props.showHideBanner({ show: false, type: '', text: '' })
                     }, constants.BANNER_TIME);
                 }).catch(err => {
+                    props.showLoader(false);
                     props.showHideBanner({ show: true, type: 'failed', text: "Guest Deleted Failed. Please try again later." })
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
@@ -215,10 +218,11 @@ const GuestListSection = (props) => {
                 console.log(selectedGuestList);
 
                 let payload = {...selectedGuestList};
-
+                props.showLoader(true);
                 //Make a server call 
                 axiosInstance.put(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, payload)
                     .then((res) => {
+                        props.showLoader(false);
                         props.fetchEventsData('allguests');
                         props.goToSection('viewevent');
                         props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
@@ -226,6 +230,7 @@ const GuestListSection = (props) => {
                             props.showHideBanner({ show: false, type: '', text: '' })
                         }, constants.BANNER_TIME);
                     }).catch(err => {
+                        props.showLoader(false);
                         console.log(err);
                         props.goToSection('viewevent');
                         props.showHideBanner({ show: true, type: 'failed', text: "Guest couldn't be Added. Please try again later." })

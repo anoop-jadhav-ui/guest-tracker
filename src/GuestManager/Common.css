@@ -125,3 +125,34 @@ ion-icon[name=trash-outline]{
 ion-icon[name=create-outline]{
     font-size:1.4rem;
 }
+
+
+.gradient{
+   background:#F2F2F2;
+    background-size: 600% 600%;
+
+}
+
+/* .gradient{
+    background: linear-gradient(270deg, #60a5bf, #5784ce, #7362cc);
+    background-size: 600% 600%;
+    -webkit-animation: gradientAnimation 48s ease infinite;
+    -moz-animation: gradientAnimation 48s ease infinite;
+    animation: gradientAnimation 48s ease infinite;
+}
+
+@-webkit-keyframes gradientAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes gradientAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes gradientAnimation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+} */

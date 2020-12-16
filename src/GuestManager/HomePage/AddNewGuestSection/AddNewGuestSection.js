@@ -141,9 +141,10 @@ const AddNewGuestSection = (props) => {
                                 nodeId = ele.nodeId;
                             }
                         })
-
+                        props.showLoader(true);
                         axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
                             .then((res) => {
+                                props.showLoader(false);
                                 //Add the same guest in all guests json
                                 props.fetchEventsData('editguest')
                                 props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
@@ -152,6 +153,7 @@ const AddNewGuestSection = (props) => {
                                     props.goToSection('eventguests');
                                 }, constants.BANNER_TIME);
                             }).catch((err) => {
+                                props.showLoader(false);
                                 props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
                                 setTimeout(() => {
                                     props.showHideBanner({ show: false, type: '', text: '' })
@@ -176,7 +178,7 @@ const AddNewGuestSection = (props) => {
                         guestName: guestName,
                         guestId: newGuestId
                     }
-
+                    props.showLoader(true);
                     axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
                         .then((res) => {
 
@@ -186,6 +188,7 @@ const AddNewGuestSection = (props) => {
                             //Add the same guest in all guests json
                             axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, eventGuestPayload)
                                 .then((res) => {
+                                    props.showLoader(true);
                                     props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
                                     setTimeout(() => {
                                         props.fetchEventsData('newguest')
@@ -195,6 +198,7 @@ const AddNewGuestSection = (props) => {
                                 })
 
                         }).catch((err) => {
+                            props.showLoader(false);
                             props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
                             setTimeout(() => {
                                 props.showHideBanner({ show: false, type: '', text: '' })

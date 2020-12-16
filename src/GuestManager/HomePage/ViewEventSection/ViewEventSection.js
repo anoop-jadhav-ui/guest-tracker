@@ -25,7 +25,7 @@ const ViewEventSection = (props) => {
     }
     return (
         <React.Fragment>
-            <div className={styles.card}></div>
+            <div className={styles.card + " gradient"}></div>
             <div className={styles.sectionTitle}>Venue Details</div>
             <div className={styles.venueDetailsWrapper}>
                 <div className={styles.item}>

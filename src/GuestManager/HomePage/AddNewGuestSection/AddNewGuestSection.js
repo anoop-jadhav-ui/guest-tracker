@@ -6,7 +6,7 @@ import * as constants from '../../constants'
 import axiosInstance from '../../axios'
 import { getId } from '../../Iterators'
 const AddNewGuestSection = (props) => {
-    
+
     //States
     let [eventName, setEventName] = useState(props.event.eventName);
     let [guestName, setGuestName] = useState('');
@@ -45,8 +45,8 @@ const AddNewGuestSection = (props) => {
     }, [props.selectedGuest])
     //functions
 
-    function setOptionFun(inputValue){
-        try{
+    function setOptionFun(inputValue) {
+        try {
             let flag = false;
             let optionsTemp = [...options];
             optionsTemp.forEach(ele => {
@@ -59,7 +59,7 @@ const AddNewGuestSection = (props) => {
             })
             setOptions(optionsTemp);
             return true;
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     }
@@ -134,27 +134,23 @@ const AddNewGuestSection = (props) => {
 
                     let changed = checkIfValuesChanged();
                     if (changed) {
-                        // axiosInstance.patch(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${props.selectedGuest.nodeId}.json?auth=` + props.idToken, payload)
-                        axiosInstance.patch(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${props.selectedGuest.nodeId}.json?auth=` + props.idToken, payload)
+
+                        let nodeId;
+                        props.allGuests.forEach(ele => {
+                            if (ele.guestId === props.selectedGuest.guestId) {
+                                nodeId = ele.nodeId;
+                            }
+                        })
+
+                        axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
                             .then((res) => {
                                 //Add the same guest in all guests json
-                                //search for that node in all guests 
-                                let nodeId;
-                                props.allGuests.forEach(ele=>{
-                                    if(ele.guestId === props.selectedGuest.guestId){
-                                        nodeId = ele.nodeId;
-                                    }
-                                })
-                                axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
-                                    .then((res) => {
-                                        //Add the same guest in all guests json
-                                        props.fetchEventsData('editguest')
-                                        props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
-                                        setTimeout(() => {
-                                            props.showHideBanner({ show: false, type: '', text: '' })
-                                            props.goToSection('eventguests');
-                                        }, constants.BANNER_TIME);
-                                    }).catch(err=>console.log(err));
+                                props.fetchEventsData('editguest')
+                                props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
+                                setTimeout(() => {
+                                    props.showHideBanner({ show: false, type: '', text: '' })
+                                    props.goToSection('eventguests');
+                                }, constants.BANNER_TIME);
                             }).catch((err) => {
                                 props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
                                 setTimeout(() => {
@@ -162,6 +158,7 @@ const AddNewGuestSection = (props) => {
                                     props.goToSection('eventguests');
                                 }, constants.BANNER_TIME);
                             })
+
                     } else {
                         props.showHideBanner({ show: true, type: 'warning', text: "Nothing has Changed." })
                         setTimeout(() => {
@@ -170,19 +167,24 @@ const AddNewGuestSection = (props) => {
                     }
 
                 } else {
+
+                    let newGuestId = getId.next().value;
                     payload = {
                         contactNumber: contact,
                         familyName: familyName,
                         guestOf: guestOf,
                         guestName: guestName,
-                        guestId: getId.next().value
+                        guestId: newGuestId
                     }
 
-                    axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, payload)
+                    axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
                         .then((res) => {
-                            let newGuestId = res.data.name;
+
+                            let eventGuestPayload = {
+                                guestId: newGuestId
+                            }
                             //Add the same guest in all guests json
-                            axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
+                            axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, eventGuestPayload)
                                 .then((res) => {
                                     props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
                                     setTimeout(() => {
@@ -190,13 +192,8 @@ const AddNewGuestSection = (props) => {
                                         props.showHideBanner({ show: false, type: '', text: '' })
                                         props.goToSection('viewevent');
                                     }, constants.BANNER_TIME);
-                                }).catch(err => {
-                                    //remove the guest from events if an error
-                                    axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${newGuestId}?auth=` + props.idToken, payload)
-                                        .catch(err => {
-                                            console.log(err);
-                                        })
                                 })
+
                         }).catch((err) => {
                             props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
                             setTimeout(() => {

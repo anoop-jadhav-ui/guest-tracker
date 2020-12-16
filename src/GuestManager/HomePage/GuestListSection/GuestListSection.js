@@ -16,6 +16,71 @@ const GuestListSection = (props) => {
     let [tempGuestListState, setTempGuestListState] = useState(props.allGuests);
     let [selectAllText, setSelectAllText] = useState();
 
+
+    useEffect(() => {
+        if (props.type === 'allguests') {
+            let intersection = [];
+            if (guestListState) {
+                let tempGuestListState = [...guestListState];
+                tempGuestListState.forEach(ele => {
+                    ele.checked = false;
+                })
+
+                if ('guests' in props.event && props.event.guests.length >= 1) {
+                    tempGuestListState.forEach(ele => {
+
+                        let guestPresent = checkIfGuestPresentInSelectedEvent(ele.guestId);
+                        if (!guestPresent) {
+                            intersection.push(ele);
+                        }
+                    })
+                } else {
+                    intersection = tempGuestListState;
+                }
+            }
+
+            setTempGuestListState(intersection);
+            setGuestListState(intersection);
+            setSelectAllText('Select All')
+
+        } else if (props.type === 'eventguests') {
+            let eventList = [];
+            if (guestListState) {
+                let tempGuestListState = [...guestListState];
+
+                //get guests from allGuests using ID in the event
+                if ('guests' in props.event && props.event.guests.length >= 1) {
+                    tempGuestListState.forEach(ele => {
+                        let guestPresent = checkIfGuestPresentInSelectedEvent(ele.guestId);
+                        if (guestPresent) {
+                            eventList.push(ele);
+                        }
+                    })
+                }
+            }
+            console.log(eventList);
+            setTempGuestListState(eventList);
+            setGuestListState(eventList);
+            setSelectAllText('Select All')
+
+        }
+
+    }, [])
+
+    function checkIfGuestPresentInSelectedEvent(key) {
+        try {
+            let flag = false;
+            props.event.guests.forEach(ele => {
+                if (ele.guestId === key) {
+                    flag = true;
+                }
+            })
+            return flag;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     function searchChangeHandler(evt) {
         let inputVal = evt.target.value;
         setSearchGuestInput(inputVal);
@@ -74,35 +139,7 @@ const GuestListSection = (props) => {
         }
     }
 
-    useEffect(() => {
-        if (props.type === 'allguests') {
-            let intersection = [];
-            if (guestListState) {
-                let tempGuestListState = [...guestListState];
-                tempGuestListState.forEach(ele => {
-                    ele.checked = false;
-                })
 
-                if ('guests' in props.event && props.event.guests.length >= 1) {
-                    tempGuestListState.forEach(ele => {
-                        props.event.guests.forEach(guest => {
-                            if (guest.guestId !== ele.guestId) {
-                                intersection.push(ele);
-                            }
-                        })
-                    })
-                } else {
-                    intersection = tempGuestListState;
-                }
-            }
-
-            setTempGuestListState(intersection);
-            setGuestListState(intersection);
-            setSelectAllText('Select All')
-
-        }
-
-    }, [])
     function editHandler(evt) {
         try {
             let srcGuestId = evt.currentTarget.dataset.guestId;
@@ -124,7 +161,7 @@ const GuestListSection = (props) => {
             let srcGuestId = evt.currentTarget.dataset.guestId;
 
             let eleToBeDeleted;
-            guestListState.forEach(ele => {
+            props.event.guests.forEach(ele => {
                 if (ele.guestId === parseInt(srcGuestId)) {
                     console.log(ele.guestId, parseInt(srcGuestId));
                     eleToBeDeleted = ele;
@@ -133,6 +170,8 @@ const GuestListSection = (props) => {
             axiosInstance.delete(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${eleToBeDeleted.nodeId}.json?auth=` + props.idToken)
                 .then((res) => {
                     props.fetchEventsData('eventguests');
+                    props.goToSection('viewevent');
+
                     props.showHideBanner({ show: true, type: 'success', text: "Guest Deleted Successfully." })
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
@@ -157,6 +196,7 @@ const GuestListSection = (props) => {
                     selectedGuestList.push(ele);
                 }
             })
+
             if (selectedGuestList.length > 0) {
                 //patch these to the main event guest list 
                 let eventGuestList;
@@ -166,9 +206,15 @@ const GuestListSection = (props) => {
                 }
 
                 selectedGuestList.forEach(ele => {
-                    delete (ele.nodeId);
+                    Object.keys(ele).forEach((key)=>{
+                        if(key !== "guestId"){
+                            delete ele[key];
+                        }
+                    })
                 })
-                let payload = [...selectedGuestList];
+                console.log(selectedGuestList);
+
+                let payload = {...selectedGuestList};
 
                 //Make a server call 
                 axiosInstance.put(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, payload)
@@ -204,11 +250,11 @@ const GuestListSection = (props) => {
     }
     return (
         <div className={styles.guestlistWrapper}>
-            <div className={styles.selectAllButton}>
+            { props.type === 'allguests' && <div className={styles.selectAllButton}>
                 <Button type="secondary" onClick={selectAllHandler}>
                     {selectAllText}
                 </Button>
-            </div>
+            </div> } 
             <Input type="text" name="search guests" ref={searchInputRef} value={searchGuestInput} placeholder={props.placeholder} onChange={searchChangeHandler}></Input>
 
             <div className={styles.guestTable}>

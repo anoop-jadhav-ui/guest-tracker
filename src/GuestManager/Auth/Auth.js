@@ -178,6 +178,7 @@ const Auth = (props) => {
                     }
                     axiosInstance.post(`/users.json?auth=` + response.data.idToken, payload)
                         .then((res) => {
+                            setPassword('');
                             props.showHideBanner({ show: true, type: 'success', text: 'Sign up successful. Please Login to continue...' })
                             setTimeout(() => {
                                 props.showHideBanner({ show: false, type: '', text: '' })
@@ -218,13 +219,14 @@ const Auth = (props) => {
                     })
                     //User registered
                     // setauthenticationStatus(constants.AUTHENTICATION_SUCCESS);
-
+                    setPassword('');
                     props.showHideBanner({ show: true, type: 'success', text: 'Login successful. Redirecting to homepage...' })
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
                         props.history.push({ pathname: '/home' });
+                        props.goToPage(constants.HOME_PAGE);
                     }, constants.BANNER_TIME);
-                    props.goToPage(constants.HOME_PAGE);
+                  
                 })
                 .catch((err) => {
                     //User Already present 

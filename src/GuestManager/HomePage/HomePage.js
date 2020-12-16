@@ -38,17 +38,29 @@ const HomePage = (props) => {
 
     let [userNodeId, setUserNodeId] = useState();
 
-    function convertObjectToArray(obj) {
+    function convertObjectToArray(obj,arrType) {
         try {
             let events = [];
             if (Array.isArray(obj)) {
+                if(arrType === "guestsArr"){
+                    let tempArr = [];
+                    obj.forEach((ele,index)=>{
+                        if(ele != null ){
+                            tempArr.push({
+                                guestId : ele.guestId,
+                                nodeId : index
+                            })
+                        }
+                    })
+                    obj = [...tempArr];
+                }
                 return obj;
             } else {
                 Object.keys(obj).forEach(key => {
                     //events for current user
                     let currentObj;
                     if ("guests" in obj[key] && obj[key]['guests'] !== undefined) {
-                        let guests = convertObjectToArray(obj[key]['guests']);
+                        let guests = convertObjectToArray(obj[key]['guests'],'guestsArr');
                         currentObj = {
                             ...obj[key],
                             'guests': [...guests]
@@ -96,9 +108,7 @@ const HomePage = (props) => {
                                 if ("allGuests" in res.data[key] && res.data[key]['allGuests'] !== undefined) {
                                     setAllGuests(convertObjectToArray(res.data[key].allGuests))
                                 }
-
                             }
-                            // newUser = false;
                         }
                     });
 
@@ -277,10 +287,10 @@ const HomePage = (props) => {
                     }></Route>
                     <Route exact path={props.match.path + '/eventguests'} render={
                         () => <GuestListSection
-                            type="event"
+                            type="eventguests"
                             fetchEventsData={fetchEventsData}
                             event={selectedEvent}
-                            allGuests={selectedEvent.guests}
+                            allGuests={allGuests}
                             placeholder="Search for guests"
                             userNodeId={userNodeId}
                             idToken={props.idToken}
@@ -330,9 +340,6 @@ const HomePage = (props) => {
                             showHideBanner={props.showHideBanner}
                         ></AddNewGuestSection>
                     }></Route>
-
-
-
                     {/* </Switch> */}
                 </React.Fragment>
             }

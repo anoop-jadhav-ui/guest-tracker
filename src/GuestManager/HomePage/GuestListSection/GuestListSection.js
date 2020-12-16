@@ -58,7 +58,6 @@ const GuestListSection = (props) => {
                     })
                 }
             }
-            console.log(eventList);
             setTempGuestListState(eventList);
             setGuestListState(eventList);
             setSelectAllText('Select All')
@@ -114,7 +113,6 @@ const GuestListSection = (props) => {
     }
     function selectAllHandler() {
         try {
-            console.log(selectAllText);
             if (selectAllText === 'Select All') {
                 let tempGuestListState = [...guestListState];
                 tempGuestListState.forEach(ele => {
@@ -163,7 +161,6 @@ const GuestListSection = (props) => {
             let eleToBeDeleted;
             props.event.guests.forEach(ele => {
                 if (ele.guestId === parseInt(srcGuestId)) {
-                    console.log(ele.guestId, parseInt(srcGuestId));
                     eleToBeDeleted = ele;
                 }
             })
@@ -193,7 +190,6 @@ const GuestListSection = (props) => {
         try {
             //check if anything checked or not 
             let selectedGuestList = [];
-            console.log(guestListState);
             guestListState.forEach(ele => {
                 if (ele.checked === true) {
                     selectedGuestList.push(ele);
@@ -215,7 +211,6 @@ const GuestListSection = (props) => {
                         }
                     })
                 })
-                console.log(selectedGuestList);
 
                 let payload = {...selectedGuestList};
                 props.showLoader(true);

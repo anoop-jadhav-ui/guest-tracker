@@ -24,6 +24,11 @@
     width:100%;
     text-align: center;
 }
+.destructive{
+    color:#BC0C0C;
+    border:2px solid #BC0C0C;
+
+}
 .secondaryButton{
     background:transparent;
     color:#2F80ED;

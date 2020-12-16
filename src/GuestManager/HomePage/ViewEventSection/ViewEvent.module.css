@@ -18,13 +18,15 @@
 .item{
     width:50%;
 }
+
 .item:nth-child(2n){
     padding-left:0.5rem;
 }
+.item:nth-child(2n+2):not(:nth-child(2)),
 .item:nth-child(2n+1):not(:first-child){
-    padding-left:0;
     padding-top:1rem;
 }
+
 .item > .label{
 font-weight:bold;
 color:#828282;

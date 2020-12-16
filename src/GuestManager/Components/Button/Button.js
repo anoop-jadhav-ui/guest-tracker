@@ -50,6 +50,13 @@ const Button = (props) => {
             </button>
         )
     }
+    else if (props.type === 'destructive-neutral') {
+        return (
+            <button {...props} disabled={disableButton} className={customClass +' '+   styles.neutralButton +' '+props.textAlign + ' ' + styles.destructive} onClick={clickHandler}>
+               {props.children}
+            </button>
+        )
+    }
 }
 
 export default Button;

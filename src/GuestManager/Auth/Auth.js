@@ -118,7 +118,11 @@ const Auth = (props) => {
             if (password === '') {
                 flag = false;
                 passwordRef.current.highlightInput();
-            } else {
+            } else if(password.length < 6){
+                flag = false;
+                passwordRef.current.highlightInput('Min length of password should be 6.');
+            }
+            else {
                 passwordRef.current.removeHighlights();
             }
 
@@ -140,7 +144,6 @@ const Auth = (props) => {
     function setLoginExpireFunctionality(time) {
         try {
             let timeInSecs = parseInt(time) * 1000;
-            console.log('logout time ' + time)
             setTimeout(() => {
                 logout();
             }, timeInSecs);

@@ -106,9 +106,15 @@ const HomePage = (props) => {
                                     }
                                 })
                                 setEvents(eventsArr);
-                                if ("allGuests" in res.data[key] && res.data[key]['allGuests'] !== undefined) {
-                                    setAllGuests(convertObjectToArray(res.data[key].allGuests))
-                                }
+                                
+                            }else{
+                                setEvents([]);
+                            }
+
+                            if ("allGuests" in res.data[key] && res.data[key]['allGuests'] !== undefined) {
+                                setAllGuests(convertObjectToArray(res.data[key].allGuests))
+                            }else{
+                                setAllGuests([])
                             }
                         }
                     });
@@ -292,8 +298,12 @@ const HomePage = (props) => {
                     }></Route>
                     <Route exact path={props.match.path + '/viewevent'} render={
                         () => <ViewEventSection
+                            userNodeId={userNodeId}
+                            idToken={props.idToken}
                             event={selectedEvent}
                             goToSection={goToSection}
+                            fetchEventsData={fetchEventsData}
+                            showHideBanner={props.showHideBanner}
                             showLoader={props.showLoader}
                         ></ViewEventSection>
                     }></Route>

@@ -35,11 +35,7 @@ const ViewEventSection = (props) => {
     function deleteEventHandler(evt) {
         try {
             setShowConfirmPopover(true);
-            document.body.style.overflow = "hidden";
-            setShowConfirmPopover(true);
-
         } catch (e) {
-            document.body.style.overflow = "scroll";
             setShowConfirmPopover(false);
             console.log(e);
         }
@@ -65,19 +61,15 @@ const ViewEventSection = (props) => {
                         props.showHideBanner({ show: false, type: '', text: '' })
                     }, constants.BANNER_TIME);
                 })
-
-
-            document.body.style.overflow = "scroll";
+                
             setShowConfirmPopover(false);
         } catch (e) {
-            document.body.style.overflow = "scroll";
             setShowConfirmPopover(false);
             console.log(e);
         }
     }
     function cancelHandler() {
         try {
-            document.body.style.overflow = "scroll";
             setShowConfirmPopover(false);
         } catch (e) {
             console.log(e);

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import Input from '../../Components/Input/Input'
 import Button from '../../Components/Button/Button'
 import FloatingPanel from '../../Components/FloatingPanel/FloatingPanel'
+import ConfirmationPopover from '../../Components/ConfirmationPopover/ConfirmationPopover'
 
 import axiosInstance from '../../axios'
 import * as constants from '../../constants'
@@ -15,7 +16,8 @@ const GuestListSection = (props) => {
     let [guestListState, setGuestListState] = useState(props.allGuests);
     let [tempGuestListState, setTempGuestListState] = useState(props.allGuests);
     let [selectAllText, setSelectAllText] = useState();
-
+    let [showConfirmPopover, setShowConfirmPopover] = useState();
+    let [deletedGuestId, setDeletedGuestId] = useState();
 
     useEffect(() => {
         if (props.type === 'allguests') {
@@ -79,7 +81,6 @@ const GuestListSection = (props) => {
             console.log(e);
         }
     }
-
     function searchChangeHandler(evt) {
         let inputVal = evt.target.value;
         setSearchGuestInput(inputVal);
@@ -136,8 +137,6 @@ const GuestListSection = (props) => {
             console.log(e);
         }
     }
-
-
     function editHandler(evt) {
         try {
             let srcGuestId = evt.currentTarget.dataset.guestId;
@@ -156,32 +155,11 @@ const GuestListSection = (props) => {
     }
     function deleteHandler(evt) {
         try {
-            let srcGuestId = evt.currentTarget.dataset.guestId;
-
-            let eleToBeDeleted;
-            props.event.guests.forEach(ele => {
-                if (ele.guestId === parseInt(srcGuestId)) {
-                    eleToBeDeleted = ele;
-                }
-            })
-            props.showLoader(true);
-            axiosInstance.delete(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${eleToBeDeleted.nodeId}.json?auth=` + props.idToken)
-                .then((res) => {
-                    props.showLoader(false);
-                    props.fetchEventsData('eventguests');
-                    props.goToSection('viewevent');
-
-                    props.showHideBanner({ show: true, type: 'success', text: "Guest Deleted Successfully." })
-                    setTimeout(() => {
-                        props.showHideBanner({ show: false, type: '', text: '' })
-                    }, constants.BANNER_TIME);
-                }).catch(err => {
-                    props.showLoader(false);
-                    props.showHideBanner({ show: true, type: 'failed', text: "Guest Deleted Failed. Please try again later." })
-                    setTimeout(() => {
-                        props.showHideBanner({ show: false, type: '', text: '' })
-                    }, constants.BANNER_TIME);
-                })
+            if(evt && "currentTarget" in evt && evt.currentTarget.dataset.guestId){
+                setDeletedGuestId(evt.currentTarget.dataset.guestId);
+                setShowConfirmPopover(true);
+            }
+          
         } catch (e) {
             console.log(e);
         }
@@ -205,14 +183,14 @@ const GuestListSection = (props) => {
                 }
 
                 selectedGuestList.forEach(ele => {
-                    Object.keys(ele).forEach((key)=>{
-                        if(key !== "guestId"){
+                    Object.keys(ele).forEach((key) => {
+                        if (key !== "guestId") {
                             delete ele[key];
                         }
                     })
                 })
 
-                let payload = {...selectedGuestList};
+                let payload = { ...selectedGuestList };
                 props.showLoader(true);
                 //Make a server call 
                 axiosInstance.put(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, payload)
@@ -248,13 +226,55 @@ const GuestListSection = (props) => {
             console.log(e);
         }
     }
+
+    function cancelHandler() {
+        try {
+            setShowConfirmPopover(false);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    function confirmHandler() {
+        try {
+
+            let srcGuestId = deletedGuestId;
+
+            let eleToBeDeleted;
+            props.event.guests.forEach(ele => {
+                if (ele.guestId === parseInt(srcGuestId)) {
+                    eleToBeDeleted = ele;
+                }
+            })
+            props.showLoader(true);
+            axiosInstance.delete(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests/${eleToBeDeleted.nodeId}.json?auth=` + props.idToken)
+                .then((res) => {
+                    props.showLoader(false);
+                    props.fetchEventsData('eventguests');
+                    props.goToSection('viewevent');
+
+                    props.showHideBanner({ show: true, type: 'success', text: "Guest Deleted Successfully." })
+                    setTimeout(() => {
+                        props.showHideBanner({ show: false, type: '', text: '' })
+                    }, constants.BANNER_TIME);
+                }).catch(err => {
+                    props.showLoader(false);
+                    props.showHideBanner({ show: true, type: 'failed', text: "Guest Deleted Failed. Please try again later." })
+                    setTimeout(() => {
+                        props.showHideBanner({ show: false, type: '', text: '' })
+                    }, constants.BANNER_TIME);
+                })
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
     return (
         <div className={styles.guestlistWrapper}>
             { props.type === 'allguests' && <div className={styles.selectAllButton}>
                 <Button type="secondary" onClick={selectAllHandler}>
                     {selectAllText}
                 </Button>
-            </div> } 
+            </div>}
             <Input type="text" name="search guests" ref={searchInputRef} value={searchGuestInput} placeholder={props.placeholder} onChange={searchChangeHandler}></Input>
 
             <div className={styles.guestTable}>
@@ -304,6 +324,13 @@ const GuestListSection = (props) => {
                 {props.type === 'allguests' && <FloatingPanel>
                     <Button type="primary" onClick={addExistingGuestshandler}>Add Guests</Button>
                 </FloatingPanel>}
+                {showConfirmPopover && <ConfirmationPopover confirmHandler={confirmHandler}
+                    cancelHandler={cancelHandler}
+                    confirmationText="Are you sure you want to delete this Guest?"
+                    helpText="Deleting this will remove the Guest from this event. Although you can still add this guest from the existing Guest list Add option."
+                    confirmText="Confirm"
+                    cancelText="Cancel"
+                ></ConfirmationPopover>}
 
             </div>
         </div>

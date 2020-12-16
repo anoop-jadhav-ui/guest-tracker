@@ -119,6 +119,8 @@ const HomePage = (props) => {
 
                     props.showLoader(false);
                 }).catch((err) => {
+                    props.showLoader(false);
+                    logoutHandler();
                     //redirect to auth page as the user seems to be logged out.
                     console.log(err);
                 })
@@ -235,6 +237,23 @@ const HomePage = (props) => {
         }
     }
 
+    function logoutHandler() {
+        try {
+            //clear token & userid
+            props.clearToken();
+        
+            props.showHideBanner({ show: true, type: 'warning', text: 'Session ended. Redirecting...' })
+            setTimeout(() => {
+                props.showHideBanner({ show: false, type: '', text: '' })
+                routeHistory.push('/');
+            }, constants.BANNER_TIME);
+           
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+
     useEffect(() => {
         getHeader()
         if (currentSection === 'welcome') {
@@ -245,7 +264,7 @@ const HomePage = (props) => {
     return (
         <Page
             navigation={
-                <Navigation showBackButton={currentSection !== 'welcome'} showLogoutButton={props.currentPage === 1 || props.currentPage === 2} onGoBack={onGoBack}></Navigation>
+                <Navigation showBackButton={currentSection !== 'welcome'} showLogoutButton={props.currentPage === 1 || props.currentPage === 2} onGoBack={onGoBack} logoutHandler={logoutHandler}></Navigation>
             }
             header={
                 <PageHeader header={
@@ -372,7 +391,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         goToPage: (currentPageName) => dispatch(actions.goToPage(currentPageName)),
         showHideBanner: (data) => dispatch(actions.showBannerAction(data)),
-        showLoader : (data) => dispatch(actions.showLoader(data))
+        showLoader : (data) => dispatch(actions.showLoader(data)),
+        clearToken: () => dispatch(actions.clearToken())
     }
 }
 export default connect(mapStoreToProps, mapDispatchToProps)(HomePage);

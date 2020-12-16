@@ -42,7 +42,7 @@ const ViewEventSection = (props) => {
                 </div>
             </div>
             <div className={styles.buttonWrapper}>
-                <Button type="neutral" onClick={updateGuestList}>Update Guest List</Button>
+                <Button type="neutral" onClick={updateGuestList}>View/Update Guest List</Button>
                 <Button type="primary" onClick={addNewGuest}>Add New Guest</Button>
             </div>
         </React.Fragment>

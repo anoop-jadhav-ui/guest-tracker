@@ -3,7 +3,7 @@ import styles from './ViewEvent.module.css'
 
 import Button from '../../Components/Button/Button'
 import ConfirmationPopover from '../../Components/ConfirmationPopover/ConfirmationPopover'
-import React, { useEffect, useState } from 'react'
+import React, {useState } from 'react'
 
 import axiosInstance from '../../axios'
 import * as constants from '../../constants'

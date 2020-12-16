@@ -127,7 +127,7 @@ const AddNewGuestSection = (props) => {
                     if (ele.contactNumber === contact &&
                         ele.familyName.toLowerCase() === familyName.toLowerCase() &&
                         ele.guestOf === guestOf &&
-                        ele.guestName.toLowerCase()  === guestName.toLowerCase() ) {
+                        ele.guestName.toLowerCase() === guestName.toLowerCase()) {
                         flag = true;
                     }
                 })
@@ -156,41 +156,34 @@ const AddNewGuestSection = (props) => {
                             guestName: guestName,
                         }
 
-                        let changed = checkIfValuesChanged();
-                        if (changed) {
 
-                            let nodeId;
-                            props.allGuests.forEach(ele => {
-                                if (ele.guestId === props.selectedGuest.guestId) {
-                                    nodeId = ele.nodeId;
-                                }
+                        let nodeId;
+                        props.allGuests.forEach(ele => {
+                            if (ele.guestId === props.selectedGuest.guestId) {
+                                nodeId = ele.nodeId;
+                            }
+                        })
+                        props.showLoader(true);
+                        axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
+                            .then((res) => {
+                                props.showLoader(false);
+                                //Add the same guest in all guests json
+                                props.fetchEventsData('editguest')
+                                props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
+                                setTimeout(() => {
+                                    props.showHideBanner({ show: false, type: '', text: '' })
+                                    props.goToSection('eventguests');
+                                }, constants.BANNER_TIME);
+                            }).catch((err) => {
+                                props.showLoader(false);
+                                props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
+                                setTimeout(() => {
+                                    props.showHideBanner({ show: false, type: '', text: '' })
+                                    props.goToSection('eventguests');
+                                }, constants.BANNER_TIME);
                             })
-                            props.showLoader(true);
-                            axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
-                                .then((res) => {
-                                    props.showLoader(false);
-                                    //Add the same guest in all guests json
-                                    props.fetchEventsData('editguest')
-                                    props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
-                                    setTimeout(() => {
-                                        props.showHideBanner({ show: false, type: '', text: '' })
-                                        props.goToSection('eventguests');
-                                    }, constants.BANNER_TIME);
-                                }).catch((err) => {
-                                    props.showLoader(false);
-                                    props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
-                                    setTimeout(() => {
-                                        props.showHideBanner({ show: false, type: '', text: '' })
-                                        props.goToSection('eventguests');
-                                    }, constants.BANNER_TIME);
-                                })
 
-                        } else {
-                            props.showHideBanner({ show: true, type: 'warning', text: "Nothing has Changed." })
-                            setTimeout(() => {
-                                props.showHideBanner({ show: false, type: '', text: '' })
-                            }, constants.BANNER_TIME);
-                        }
+
 
                     } else {
 
@@ -232,7 +225,7 @@ const AddNewGuestSection = (props) => {
                     }
 
                 } else {
-                    props.showHideBanner({ show: true, type: 'warning', text: "Guest Name Already Present with similar details." })
+                    props.showHideBanner({ show: true, type: 'warning', text: "Guest with Similar details is already Present." })
                     setTimeout(() => {
                         props.showHideBanner({ show: false, type: '', text: '' })
                     }, constants.BANNER_TIME);

@@ -1,5 +1,5 @@
 import styles from './Button.module.css'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 const Button = (props) => {
     let [disableButton,setDisableButton] = useState(false);
@@ -11,17 +11,24 @@ const Button = (props) => {
     }
     
 
+    let timeoutVariable;
     function clickHandler(){
         try{
             props.onClick();
             setDisableButton(true);
-            setTimeout(()=>{
+            timeoutVariable = setTimeout(()=>{
                 setDisableButton(false);
             },500)
         }catch(e){
             console.log(e);
         }
     }
+
+    useEffect(()=>{
+        return () => { 
+            clearTimeout(timeoutVariable);
+         }
+    },[timeoutVariable])
     
     if (props.type === 'primary') {
         return (

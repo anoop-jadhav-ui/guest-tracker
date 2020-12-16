@@ -18,3 +18,8 @@ export const goToPage = (currentPageName) => {
 export const setUserDetails = (data) => {
     return { type : 'SET_USER_DETAILS', data : data }
 }
+
+
+export const showLoader = (data) => {
+    return { type : 'SHOW_LOADER', data : data }
+}

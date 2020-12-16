@@ -290,8 +290,8 @@ const GuestListSection = (props) => {
 
                                             :
                                             <div className={styles.buttonsWrapper}>
-                                                <Button type="secondary" data-guest-id={ele.guestId} onClick={editHandler}><ion-icon className="icon" name="create-outline"></ion-icon></Button>
-                                                <Button type="secondary" data-guest-id={ele.guestId} onClick={deleteHandler}><ion-icon className="red" name="trash-outline"></ion-icon></Button>
+                                                <Button type="secondary" data-guest-id={ele.guestId} onClick={editHandler}><ion-icon className="icon" name="create-outline" data-guest-id={ele.guestId} onClick={editHandler}></ion-icon></Button>
+                                                <Button type="secondary" data-guest-id={ele.guestId} onClick={deleteHandler}><ion-icon className="red" name="trash-outline" data-guest-id={ele.guestId} onClick={deleteHandler}></ion-icon></Button>
                                             </div>
                                         }
                                     </div>

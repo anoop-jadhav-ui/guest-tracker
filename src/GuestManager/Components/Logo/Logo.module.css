@@ -1,0 +1,9 @@
+.logo {
+    font-size:0.875rem;
+    text-align:center;
+    padding:1rem;
+}
+.logo span:last-child{
+   color:#2F80ED;
+   font-weight:bold;
+}

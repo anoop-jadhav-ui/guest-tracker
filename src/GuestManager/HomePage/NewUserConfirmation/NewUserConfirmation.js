@@ -50,7 +50,6 @@ const Confirmation = (props) => {
     }
     function nextHandler(){
         try{
-            console.log(isNewGuest);
             if(isNewGuest === 'yes'){
                 props.goToSection('allguests');
             }else if(isNewGuest === 'no'){

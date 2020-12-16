@@ -5,8 +5,10 @@ import { connect } from 'react-redux'
 import Auth from './Auth/Auth'
 import Banner from './Components/Banner/Banner'
 import HomePage from './HomePage/HomePage'
-
+import Logo from './Components/Logo/Logo'
+import Loader from './Components/Loader/Loader'
 import styles from './GuestManager.module.css'
+
 import './Common.css'
 
 
@@ -31,8 +33,9 @@ const GuestManager = (props) => {
 
     return (
         <BrowserRouter>
+            {props.showLoader && <Loader></Loader>}
             {props.showBanner && <Banner type={props.type} text={props.text}></Banner>}
-            {props.currentPage === 0 && <div className="logo"><span>Guest</span><span>Tracker</span></div>}
+            {props.currentPage === 0 && <Logo></Logo>}
             <div className={styles.AppWrapper}>
                 <Switch>
                     <Route path="/" exact component={Auth}></Route>
@@ -51,7 +54,8 @@ const mapStoreToProps = (store) => {
         showBanner: store.bannerR.showBanner,
         text: store.bannerR.text,
         type: store.bannerR.type,
-        currentPage: store.navR.currentPage
+        currentPage: store.navR.currentPage,
+        showLoader : store.loadR.showLoader
     }
 }
 

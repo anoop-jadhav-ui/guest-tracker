@@ -330,7 +330,8 @@ const mapDispatchToProps = (dispatch) => {
         clearToken: () => dispatch(actions.clearToken()),
         showHideBanner: (data) => dispatch(actions.showBannerAction(data)),
         goToPage: (currentPageName) => dispatch(actions.goToPage(currentPageName)),
-        setUserDetails: (data) => dispatch(actions.setUserDetails(data))
+        setUserDetails: (data) => dispatch(actions.setUserDetails(data)),
+        showLoader : (data) => dispatch(actions.showLoader(data))
     }
 }
 export default connect(mapStoreToProps, mapDispatchToProps)(Auth);

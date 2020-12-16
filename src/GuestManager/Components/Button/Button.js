@@ -9,7 +9,7 @@ const Button = (props) => {
     }else{
         customClass = props.className;
     }
-
+    
 
     function clickHandler(){
         try{
@@ -17,7 +17,7 @@ const Button = (props) => {
             setDisableButton(true);
             setTimeout(()=>{
                 setDisableButton(false);
-            },2000)
+            },500)
         }catch(e){
             console.log(e);
         }

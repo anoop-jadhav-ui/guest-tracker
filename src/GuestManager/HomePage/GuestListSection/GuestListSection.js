@@ -139,27 +139,28 @@ const GuestListSection = (props) => {
     }
     function editHandler(evt) {
         try {
-            let srcGuestId = evt.currentTarget.dataset.guestId;
-            let eleToBeUpdated;
+            if (evt && "currentTarget" in evt && evt.currentTarget.dataset.guestId) {
+                let srcGuestId = evt.currentTarget.dataset.guestId;
+                let eleToBeUpdated;
 
-            guestListState.forEach(ele => {
-                if (ele.guestId === parseInt(srcGuestId)) {
-                    eleToBeUpdated = ele;
-                }
-            })
-            props.editGuestDetails(eleToBeUpdated);
-
+                guestListState.forEach(ele => {
+                    if (ele.guestId === parseInt(srcGuestId)) {
+                        eleToBeUpdated = ele;
+                    }
+                })
+                props.editGuestDetails(eleToBeUpdated);
+            }
         } catch (e) {
             console.log(e);
         }
     }
     function deleteHandler(evt) {
         try {
-            if(evt && "currentTarget" in evt && evt.currentTarget.dataset.guestId){
+            if (evt && "currentTarget" in evt && evt.currentTarget.dataset.guestId) {
                 setDeletedGuestId(evt.currentTarget.dataset.guestId);
                 setShowConfirmPopover(true);
             }
-          
+
         } catch (e) {
             console.log(e);
         }

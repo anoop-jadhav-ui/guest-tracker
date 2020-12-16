@@ -119,94 +119,126 @@ const AddNewGuestSection = (props) => {
             console.log(e);
         }
     }
+    function checkIfAlreadyPresentIntheGuestList() {
+        try {
+            let flag = false;
+            if ("allGuests" in props && props.allGuests.length > 0) {
+                props.allGuests.forEach((ele) => {
+                    if (ele.contactNumber === contact &&
+                        ele.familyName.toLowerCase() === familyName.toLowerCase() &&
+                        ele.guestOf === guestOf &&
+                        ele.guestName.toLowerCase()  === guestName.toLowerCase() ) {
+                        flag = true;
+                    }
+                })
+            }
+
+            return flag;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
     function saveEventHandler(evt) {
         try {
             let validated = validateInputs();
             if (validated) {
-                let payload;
-                if (props.selectedGuest !== undefined) {
-                    payload = {
-                        contactNumber: contact,
-                        familyName: familyName,
-                        guestOf: guestOf,
-                        guestName: guestName,
-                    }
 
-                    let changed = checkIfValuesChanged();
-                    if (changed) {
+                let alreadyPresent = checkIfAlreadyPresentIntheGuestList();
+                if (!alreadyPresent) {
 
-                        let nodeId;
-                        props.allGuests.forEach(ele => {
-                            if (ele.guestId === props.selectedGuest.guestId) {
-                                nodeId = ele.nodeId;
-                            }
-                        })
+                    let payload;
+                    if (props.selectedGuest !== undefined) {
+                        payload = {
+                            contactNumber: contact,
+                            familyName: familyName,
+                            guestOf: guestOf,
+                            guestName: guestName,
+                        }
+
+                        let changed = checkIfValuesChanged();
+                        if (changed) {
+
+                            let nodeId;
+                            props.allGuests.forEach(ele => {
+                                if (ele.guestId === props.selectedGuest.guestId) {
+                                    nodeId = ele.nodeId;
+                                }
+                            })
+                            props.showLoader(true);
+                            axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
+                                .then((res) => {
+                                    props.showLoader(false);
+                                    //Add the same guest in all guests json
+                                    props.fetchEventsData('editguest')
+                                    props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
+                                    setTimeout(() => {
+                                        props.showHideBanner({ show: false, type: '', text: '' })
+                                        props.goToSection('eventguests');
+                                    }, constants.BANNER_TIME);
+                                }).catch((err) => {
+                                    props.showLoader(false);
+                                    props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
+                                    setTimeout(() => {
+                                        props.showHideBanner({ show: false, type: '', text: '' })
+                                        props.goToSection('eventguests');
+                                    }, constants.BANNER_TIME);
+                                })
+
+                        } else {
+                            props.showHideBanner({ show: true, type: 'warning', text: "Nothing has Changed." })
+                            setTimeout(() => {
+                                props.showHideBanner({ show: false, type: '', text: '' })
+                            }, constants.BANNER_TIME);
+                        }
+
+                    } else {
+
+                        let newGuestId = getId.next().value;
+                        payload = {
+                            contactNumber: contact,
+                            familyName: familyName,
+                            guestOf: guestOf,
+                            guestName: guestName,
+                            guestId: newGuestId
+                        }
                         props.showLoader(true);
-                        axiosInstance.patch(`/users/${props.userNodeId}/allGuests/${nodeId}.json?auth=` + props.idToken, payload)
+                        axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
                             .then((res) => {
-                                props.showLoader(false);
+
+                                let eventGuestPayload = {
+                                    guestId: newGuestId
+                                }
                                 //Add the same guest in all guests json
-                                props.fetchEventsData('editguest')
-                                props.showHideBanner({ show: true, type: 'success', text: "Guest Updated Successfully." })
-                                setTimeout(() => {
-                                    props.showHideBanner({ show: false, type: '', text: '' })
-                                    props.goToSection('eventguests');
-                                }, constants.BANNER_TIME);
+                                axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, eventGuestPayload)
+                                    .then((res) => {
+                                        props.showLoader(true);
+                                        props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
+                                        setTimeout(() => {
+                                            props.fetchEventsData('newguest')
+                                            props.showHideBanner({ show: false, type: '', text: '' })
+                                            props.goToSection('viewevent');
+                                        }, constants.BANNER_TIME);
+                                    })
+
                             }).catch((err) => {
                                 props.showLoader(false);
                                 props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
                                 setTimeout(() => {
                                     props.showHideBanner({ show: false, type: '', text: '' })
-                                    props.goToSection('eventguests');
+                                    props.goToSection('viewevent');
                                 }, constants.BANNER_TIME);
                             })
-
-                    } else {
-                        props.showHideBanner({ show: true, type: 'warning', text: "Nothing has Changed." })
-                        setTimeout(() => {
-                            props.showHideBanner({ show: false, type: '', text: '' })
-                        }, constants.BANNER_TIME);
                     }
 
                 } else {
-
-                    let newGuestId = getId.next().value;
-                    payload = {
-                        contactNumber: contact,
-                        familyName: familyName,
-                        guestOf: guestOf,
-                        guestName: guestName,
-                        guestId: newGuestId
-                    }
-                    props.showLoader(true);
-                    axiosInstance.post(`/users/${props.userNodeId}/allGuests.json?auth=` + props.idToken, payload)
-                        .then((res) => {
-
-                            let eventGuestPayload = {
-                                guestId: newGuestId
-                            }
-                            //Add the same guest in all guests json
-                            axiosInstance.post(`/users/${props.userNodeId}/events/${props.event.nodeId}/guests.json?auth=` + props.idToken, eventGuestPayload)
-                                .then((res) => {
-                                    props.showLoader(true);
-                                    props.showHideBanner({ show: true, type: 'success', text: "Guest Added Successfully." })
-                                    setTimeout(() => {
-                                        props.fetchEventsData('newguest')
-                                        props.showHideBanner({ show: false, type: '', text: '' })
-                                        props.goToSection('viewevent');
-                                    }, constants.BANNER_TIME);
-                                })
-
-                        }).catch((err) => {
-                            props.showLoader(false);
-                            props.showHideBanner({ show: true, type: 'failed', text: "Sorry couldn't update data. Please try again later." })
-                            setTimeout(() => {
-                                props.showHideBanner({ show: false, type: '', text: '' })
-                                props.goToSection('viewevent');
-                            }, constants.BANNER_TIME);
-                        })
+                    props.showHideBanner({ show: true, type: 'warning', text: "Guest Name Already Present with similar details." })
+                    setTimeout(() => {
+                        props.showHideBanner({ show: false, type: '', text: '' })
+                    }, constants.BANNER_TIME);
                 }
             }
+
         } catch (e) {
             console.log(e);
         }

@@ -33,6 +33,7 @@ const GuestManager = (props) => {
 
     return (
         <BrowserRouter>
+
             {props.showLoader && <Loader></Loader>}
             {props.showBanner && <Banner type={props.type} text={props.text}></Banner>}
             {props.currentPage === 0 && <Logo></Logo>}

@@ -14,11 +14,11 @@ import userDetailsReducer from './GuestManager/store/userDetailsReducer'
 import loaderReducer from './GuestManager/store/loaderReducer'
 
 const rootReducer = combineReducers({
-  authR : authReducer,
-  bannerR : bannerReducer,
-  navR : navigationReducer,
-  userR:userDetailsReducer,
-  loadR:loaderReducer
+  authR: authReducer,
+  bannerR: bannerReducer,
+  navR: navigationReducer,
+  userR: userDetailsReducer,
+  loadR: loaderReducer
 })
 
 const store = createStore(rootReducer);

@@ -86,6 +86,7 @@ const HomePage = (props) => {
 
     function fetchEventsData(redirectedFromPage) {
         try {
+            props.showLoader(true);
             //Get all events data
             axiosInstance.get('/users.json?auth=' + props.idToken)
                 .then((res) => {
@@ -116,6 +117,7 @@ const HomePage = (props) => {
                         goToSection('welcome');
                     }
 
+                    props.showLoader(false);
                 }).catch((err) => {
                     //redirect to auth page as the user seems to be logged out.
                     console.log(err);
@@ -266,12 +268,14 @@ const HomePage = (props) => {
                             events={events}
                             cardClickHandler={cardClickHandler}
                             createNewEventHandler={createNewEventHandler}
+                            showLoader={props.showLoader}
                         ></WelcomeSection>
                     }></Route>
                     <Route exact path={props.match.path + '/viewevent'} render={
                         () => <ViewEventSection
                             event={selectedEvent}
                             goToSection={goToSection}
+                            showLoader={props.showLoader}
                         ></ViewEventSection>
                     }></Route>
                     <Route exact path={props.match.path + '/addevent'} render={
@@ -283,7 +287,9 @@ const HomePage = (props) => {
                             events={events}
                             idToken={props.idToken}
                             showHideBanner={props.showHideBanner}
-                            goToSection={goToSection}></AddEventSection>
+                            goToSection={goToSection}
+                            showLoader={props.showLoader}
+                            ></AddEventSection>
                     }></Route>
                     <Route exact path={props.match.path + '/eventguests'} render={
                         () => <GuestListSection
@@ -296,7 +302,8 @@ const HomePage = (props) => {
                             idToken={props.idToken}
                             goToSection={goToSection}
                             showHideBanner={props.showHideBanner}
-                            editGuestDetails={editGuestDetails}></GuestListSection>
+                            editGuestDetails={editGuestDetails}
+                            showLoader={props.showLoader}></GuestListSection>
                     }></Route>
                     <Route exact path={props.match.path + '/newguest'} render={
                         () => <AddNewGuestSection
@@ -307,7 +314,9 @@ const HomePage = (props) => {
                             loggedInUserName={props.loggedInUserName}
                             idToken={props.idToken}
                             goToSection={goToSection}
-                            showHideBanner={props.showHideBanner}></AddNewGuestSection>
+                            showHideBanner={props.showHideBanner}
+                            showLoader={props.showLoader}
+                            ></AddNewGuestSection>
                     }></Route>
                     <Route exact path={props.match.path + '/newguestconfirm'} render={
                         () => <Confirmation
@@ -325,6 +334,7 @@ const HomePage = (props) => {
                             fetchEventsData={fetchEventsData}
                             userNodeId={userNodeId}
                             goToSection={goToSection}
+                            showLoader={props.showLoader}
                         ></GuestListSection>
                     }></Route>
                     <Route exact path={props.match.path + '/editguest'} render={
@@ -338,6 +348,7 @@ const HomePage = (props) => {
                             idToken={props.idToken}
                             goToSection={goToSection}
                             showHideBanner={props.showHideBanner}
+                            showLoader={props.showLoader}
                         ></AddNewGuestSection>
                     }></Route>
                     {/* </Switch> */}
@@ -361,6 +372,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         goToPage: (currentPageName) => dispatch(actions.goToPage(currentPageName)),
         showHideBanner: (data) => dispatch(actions.showBannerAction(data)),
+        showLoader : (data) => dispatch(actions.showLoader(data))
     }
 }
 export default connect(mapStoreToProps, mapDispatchToProps)(HomePage);

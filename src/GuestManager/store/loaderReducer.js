@@ -7,7 +7,7 @@ function reducer(state = initialState, action) {
     switch (action.type) {
         case 'SHOW_LOADER':
             return {
-                showBanner: action.data,
+                showLoader: action.data,
             }
         default:
             return state

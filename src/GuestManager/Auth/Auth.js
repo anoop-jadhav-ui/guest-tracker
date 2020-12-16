@@ -168,8 +168,10 @@ const Auth = (props) => {
     }
     function RegisterUser(payload) {
         try {
+            props.showLoader(true);
             axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`, payload)
                 .then((response) => {
+                    props.showLoader(false);
                     //User registered
                     let payload = {
                         userName: username,
@@ -187,6 +189,7 @@ const Auth = (props) => {
                         })
                 })
                 .catch((err) => {
+                    props.showLoader(false);
                     //User Already present 
                     console.log(err);
                     // setauthenticationStatus(constants.REGISTRATION_FAILED);
@@ -203,8 +206,10 @@ const Auth = (props) => {
     }
     function LoginUser(payload) {
         try {
+            props.showLoader(true);
             axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`, payload)
                 .then((response) => {
+                    props.showLoader(false);
                     setLoginExpireFunctionality(response.data.expiresIn);
                     props.storeToken(response.data.idToken, response.data.localId, response.data.displayName);
 
@@ -229,6 +234,7 @@ const Auth = (props) => {
                   
                 })
                 .catch((err) => {
+                    props.showLoader(false);
                     //User Already present 
                     // setauthenticationStatus(constants.AUTHENTICATION_FAILED);
                     setPassword('');

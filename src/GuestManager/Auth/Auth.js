@@ -291,6 +291,18 @@ const Auth = (props) => {
 
     }
 
+    function keyDownHandler(evt){
+        try{
+            if(evt.key==='Enter'){
+                if(evt.target.name === 'password'){
+                    buttonHandler();
+                }
+            }
+        }catch(e){
+            console.log(e);
+        }
+    }
+
     return (
         <div className={styles.AuthFormWrapper + ' greyBorder'}>
             <div className={styles.inputContainer}>
@@ -307,7 +319,7 @@ const Auth = (props) => {
                     <Input label="Username" ref={usernameRef} name="username" type="text" value={username} onChange={changeHandler} placeholder='georgia.young@example.com'></Input>
                 </div>
                 <div className="inputWrapper">
-                    <Input label="Password" ref={passwordRef} name="password" type="password" value={password} onChange={changeHandler} placeholder='***********'></Input>
+                    <Input label="Password" ref={passwordRef} name="password" type="password" value={password} onKeyDown={keyDownHandler} onChange={changeHandler} placeholder='***********'></Input>
                 </div>
                 <div className={styles.buttonWrapper}>
                     <Button type='primary' className={styles.loginButton} onClick={buttonHandler}>{authType}</Button>

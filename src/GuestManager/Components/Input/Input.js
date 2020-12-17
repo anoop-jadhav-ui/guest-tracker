@@ -53,7 +53,7 @@ const Input = forwardRef((props, ref) => {
         return (
             <React.Fragment>
                 { props.label && <label htmlFor={props.name}>{props.label}</label>}
-                <textarea ref={inputRef} className={props.className} value={props.value} name={props.name} type={props.type} onChange={props.onChange} placeholder={props.placeholder} disabled={props.disabled}></textarea>
+                <textarea ref={inputRef} className={props.className} value={props.value} name={props.name} type={props.type} onChange={props.onChange} placeholder={props.placeholder} disabled={props.disabled} onKeyDown={props.onKeyDown}></textarea>
                 <label ref={errorEleRef} className="error-label">{errorMessage}</label>
             </React.Fragment>
         )
@@ -62,7 +62,7 @@ const Input = forwardRef((props, ref) => {
         return (
             <React.Fragment>
                 { props.label &&<label htmlFor={props.name}>{props.label}</label>}
-                <input ref={inputRef} className={props.className} value={props.value} name={props.name} type={props.type} onChange={props.onChange} placeholder={props.placeholder} disabled={props.disabled}></input>
+                <input ref={inputRef} className={props.className} value={props.value} name={props.name} type={props.type} onChange={props.onChange} placeholder={props.placeholder} disabled={props.disabled} onKeyDown={props.onKeyDown} ></input>
                 <label ref={errorEleRef} className="error-label">{errorMessage}</label>
             </React.Fragment>
         )

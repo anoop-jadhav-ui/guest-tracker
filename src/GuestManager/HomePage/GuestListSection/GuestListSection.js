@@ -14,7 +14,7 @@ const GuestListSection = (props) => {
     let [searchGuestInput, setSearchGuestInput] = useState('');
     let searchInputRef = useRef();
     let [guestListState, setGuestListState] = useState(props.allGuests);
-    let [tempGuestListState, setTempGuestListState] = useState(props.allGuests);
+    let [tempGuestListState, setTempGuestListState] = useState();
     let [selectAllText, setSelectAllText] = useState();
     let [showConfirmPopover, setShowConfirmPopover] = useState();
     let [deletedGuestId, setDeletedGuestId] = useState();
@@ -45,6 +45,7 @@ const GuestListSection = (props) => {
             setGuestListState(intersection);
             setSelectAllText('Select All')
 
+
         } else if (props.type === 'eventguests') {
             let eventList = [];
             if (guestListState) {
@@ -65,7 +66,6 @@ const GuestListSection = (props) => {
             setSelectAllText('Select All')
 
         }
-
     }, [])
 
     function checkIfGuestPresentInSelectedEvent(key) {
@@ -305,10 +305,7 @@ const GuestListSection = (props) => {
                                     </div>
                                     <div className={styles.td}>
                                         {props.type === 'allguests' ?
-
                                             <input data-guest-id={ele.guestId} checked={ele.checked} className={styles.checkbox} type="checkbox" onChange={checkboxChangeHandler}></input>
-
-
                                             :
                                             <div className={styles.buttonsWrapper}>
                                                 <Button type="secondary" data-guest-id={ele.guestId} onClick={editHandler}><ion-icon className="icon" name="create-outline" data-guest-id={ele.guestId} onClick={editHandler}></ion-icon></Button>

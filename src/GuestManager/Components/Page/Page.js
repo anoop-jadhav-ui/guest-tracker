@@ -9,7 +9,7 @@ const Page = (props) => {
             <div className={styles.header}>
                 {props.header}
             </div>
-            <div data-current-sec={props.currentSection} className={styles.body + " " + styles.pageBody}>
+            <div data-current-sec={props.currentSection} className={styles.body}>
                 {props.body}
             </div>
         </div>

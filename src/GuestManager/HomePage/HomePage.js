@@ -30,25 +30,25 @@ const HomePage = (props) => {
 
     let [currentSection, SetCurrentSection] = useState('welcome');
     let [selectedEvent, setSelectedEvent] = useState();
-    let [pageHeader, setPageHeader] = useState();
-    let [pageSubHeader, setPageSubHeader] = useState();
+    // let [pageHeader, setPageHeader] = useState();
+    // let [pageSubHeader, setPageSubHeader] = useState();
     let [events, setEvents] = useState();
     let [allGuests, setAllGuests] = useState();
     let [selectedGuest, setSelectedGuest] = useState();
 
     let [userNodeId, setUserNodeId] = useState();
 
-    function convertObjectToArray(obj,arrType) {
+    function convertObjectToArray(obj, arrType) {
         try {
             let events = [];
             if (Array.isArray(obj)) {
-                if(arrType === "guestsArr"){
+                if (arrType === "guestsArr") {
                     let tempArr = [];
-                    obj.forEach((ele,index)=>{
-                        if(ele != null ){
+                    obj.forEach((ele, index) => {
+                        if (ele != null) {
                             tempArr.push({
-                                guestId : ele.guestId,
-                                nodeId : index
+                                guestId: ele.guestId,
+                                nodeId: index
                             })
                         }
                     })
@@ -60,7 +60,7 @@ const HomePage = (props) => {
                     //events for current user
                     let currentObj;
                     if ("guests" in obj[key] && obj[key]['guests'] !== undefined) {
-                        let guests = convertObjectToArray(obj[key]['guests'],'guestsArr');
+                        let guests = convertObjectToArray(obj[key]['guests'], 'guestsArr');
                         currentObj = {
                             ...obj[key],
                             'guests': [...guests]
@@ -106,14 +106,14 @@ const HomePage = (props) => {
                                     }
                                 })
                                 setEvents(eventsArr);
-                                
-                            }else{
+
+                            } else {
                                 setEvents([]);
                             }
 
                             if ("allGuests" in res.data[key] && res.data[key]['allGuests'] !== undefined) {
                                 setAllGuests(convertObjectToArray(res.data[key].allGuests))
-                            }else{
+                            } else {
                                 setAllGuests([])
                             }
                         }
@@ -136,10 +136,10 @@ const HomePage = (props) => {
         }
     }
     //Functions
-    useEffect(() => {
-        props.goToPage(constants.HOME_PAGE);
-        fetchEventsData();
-    }, [])
+    // useEffect(() => {
+    //     props.goToPage(constants.HOME_PAGE);
+    //     fetchEventsData();
+    // }, [])
 
     useEffect(() => {
         //updated selected event view 
@@ -204,56 +204,56 @@ const HomePage = (props) => {
             console.log(e);
         }
     }
-    function getHeader() {
-        switch (currentSection) {
-            case 'welcome':
-                setPageHeader(`Welcome ${firstName},`)
-                setPageSubHeader("Create, Update or Add new members to the events listed below.");
-                break;
-            case 'viewevent':
-                setPageHeader(selectedEvent.eventName)
-                setPageSubHeader("")
-                break;
-            case 'addevent':
-                setPageHeader("Create Event")
-                setPageSubHeader("Fill the following form to create a new event. After the event is created you can add guests.")
-                break;
-            case 'newguest':
-                setPageHeader("Add New Guest")
-                setPageSubHeader("Fill the following form to create a new guest for the selected event.");
-                break;
-            case 'allguests':
-                setPageHeader("All Guests")
-                setPageSubHeader("Select guests whom you want to add to the " + selectedEvent.eventName + " event.");
-                break;
-            case 'newguestconfirm':
-                setPageHeader("Add New Guest")
-                setPageSubHeader("Do you want to add guests from exisiting list ?");
-                break;
-            case 'eventguests':
-                setPageHeader(selectedEvent.eventName + " Guest List")
-                setPageSubHeader('You can update or delete the guests in this event.');
-                break;
-            case 'editguest':
-                setPageHeader("Edit Guest Details")
-                setPageSubHeader('Please edit and save the changes.');
-                break;
-            default: break;
+    // function getHeader() {
+    //     switch (currentSection) {
+    //         case 'welcome':
+    //             setPageHeader(`Welcome ${firstName},`)
+    //             setPageSubHeader("Create, Update or Add new members to the events listed below.");
+    //             break;
+    //         case 'viewevent':
+    //             setPageHeader(selectedEvent.eventName)
+    //             setPageSubHeader("")
+    //             break;
+    //         case 'addevent':
+    //             setPageHeader("Create Event")
+    //             setPageSubHeader("Fill the following form to create a new event. After the event is created you can add guests.")
+    //             break;
+    //         case 'newguest':
+    //             setPageHeader("Add New Guest")
+    //             setPageSubHeader("Fill the following form to create a new guest for the selected event.");
+    //             break;
+    //         case 'allguests':
+    //             setPageHeader("All Guests")
+    //             setPageSubHeader("Select guests whom you want to add to the " + selectedEvent.eventName + " event.");
+    //             break;
+    //         case 'newguestconfirm':
+    //             setPageHeader("Add New Guest")
+    //             setPageSubHeader("Do you want to add guests from exisiting list ?");
+    //             break;
+    //         case 'eventguests':
+    //             setPageHeader(selectedEvent.eventName + " Guest List")
+    //             setPageSubHeader('You can update or delete the guests in this event.');
+    //             break;
+    //         case 'editguest':
+    //             setPageHeader("Edit Guest Details")
+    //             setPageSubHeader('Please edit and save the changes.');
+    //             break;
+    //         default: break;
 
-        }
-    }
+    //     }
+    // }
 
     function logoutHandler() {
         try {
             //clear token & userid
             props.clearToken();
-        
+
             props.showHideBanner({ show: true, type: 'warning', text: 'Session ended. Redirecting...' })
             setTimeout(() => {
                 props.showHideBanner({ show: false, type: '', text: '' })
                 routeHistory.push('/');
             }, constants.BANNER_TIME);
-           
+
         } catch (e) {
             console.log(e);
         }
@@ -261,7 +261,7 @@ const HomePage = (props) => {
 
 
     useEffect(() => {
-        getHeader()
+        // getHeader()
         if (currentSection === 'welcome') {
             fetchEventsData();
         }
@@ -274,9 +274,60 @@ const HomePage = (props) => {
             }
             header={
                 <PageHeader header={
-                    pageHeader
+                    // pageHeader
+                    <React.Fragment>
+                        <Route exact path={props.match.path + '/welcome'} render={() => {
+                            return `Welcome ${firstName},`;
+                        }}></Route>
+                        <Route exact path={props.match.path + '/viewevent'} render={() => {
+                            return selectedEvent.eventName;
+                        }}></Route>
+                        <Route exact path={props.match.path + '/addevent'} render={() => {
+                            return "Create Event";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/eventguests'} render={() => {
+                            return selectedEvent.eventName + " Guest List";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/newguest'} render={() => {
+                            return "Add New Guest";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/newguestconfirm'} render={() => {
+                            return "Add New Guest";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/allguests'} render={() => {
+                            return "All Guests";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/editguest'} render={() => {
+                            return "Edit Guest Details";
+                        }}></Route>
+                    </React.Fragment>
                 } subHeader={
-                    pageSubHeader
+                    <React.Fragment>
+                        <Route exact path={props.match.path + '/welcome'} render={() => {
+                            return "Create, Update or Add new members to the events listed below.";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/viewevent'} render={() => {
+                            return "";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/addevent'} render={() => {
+                            return "Fill the following form to create a new event. After the event is created you can add guests.";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/eventguests'} render={() => {
+                            return "You can update or delete the guests in this event.";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/newguest'} render={() => {
+                            return "Fill the following form to create a new guest for the selected event.";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/newguestconfirm'} render={() => {
+                            return "Do you want to add guests from exisiting list ?";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/allguests'} render={() => {
+                            return "Select guests whom you want to add to the " + selectedEvent.eventName + " event.";
+                        }}></Route>
+                        <Route exact path={props.match.path + '/editguest'} render={() => {
+                            return "Please edit and save the changes.";
+                        }}></Route>
+                    </React.Fragment>
                 }></PageHeader>
             }
             currentSection={currentSection}
@@ -319,7 +370,7 @@ const HomePage = (props) => {
                             showHideBanner={props.showHideBanner}
                             goToSection={goToSection}
                             showLoader={props.showLoader}
-                            ></AddEventSection>
+                        ></AddEventSection>
                     }></Route>
                     <Route exact path={props.match.path + '/eventguests'} render={
                         () => <GuestListSection
@@ -346,7 +397,7 @@ const HomePage = (props) => {
                             goToSection={goToSection}
                             showHideBanner={props.showHideBanner}
                             showLoader={props.showLoader}
-                            ></AddNewGuestSection>
+                        ></AddNewGuestSection>
                     }></Route>
                     <Route exact path={props.match.path + '/newguestconfirm'} render={
                         () => <Confirmation
@@ -402,7 +453,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         goToPage: (currentPageName) => dispatch(actions.goToPage(currentPageName)),
         showHideBanner: (data) => dispatch(actions.showBannerAction(data)),
-        showLoader : (data) => dispatch(actions.showLoader(data)),
+        showLoader: (data) => dispatch(actions.showLoader(data)),
         clearToken: () => dispatch(actions.clearToken())
     }
 }

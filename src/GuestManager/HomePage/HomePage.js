@@ -194,20 +194,19 @@ const HomePage = (props) => {
     function logoutHandler() {
         try {
             //clear token & userid
-            props.clearToken();
-
+           
             props.showHideBanner({ show: true, type: 'warning', text: 'Session ended. Redirecting...' })
             setTimeout(() => {
+                
                 props.showHideBanner({ show: false, type: '', text: '' })
                 routeHistory.push('/');
+                props.userLogout();
             }, constants.BANNER_TIME);
 
         } catch (e) {
             console.log(e);
         }
     }
-
-    console.log(props);
 
     useEffect(() => {
        props.setCurrentSection('welcome');
@@ -423,6 +422,8 @@ const mapDispatchToProps = (dispatch) => {
         setAllGuests : (data) => dispatch(actions.setAllGuestsAction(data)),
         setSelectedGuest : (data) => dispatch(actions.setSelectedGuest(data)),
         setUserNodeId : (data) => dispatch(actions.setUserNodeId(data)),
+        userLogout : () => dispatch(actions.userLogout())
+        
     }
 }
 export default connect(mapStoreToProps, mapDispatchToProps)(HomePage);

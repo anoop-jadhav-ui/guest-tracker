@@ -72,3 +72,9 @@ export const setUserNodeId = (data) => {
     }
 }
 
+export const userLogout = (data) =>{
+    return {
+        type : 'USER_LOGOUT'
+    }
+}
+

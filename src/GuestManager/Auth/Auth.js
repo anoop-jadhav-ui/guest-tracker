@@ -155,13 +155,13 @@ const Auth = (props) => {
     function logout() {
         try {
             //clear token & userid
-            props.clearToken();
             setTimeout(() => {
                 props.showHideBanner({ show: true, type: 'warning', text: 'You are logged out. Please login again.' })
                 props.history.push({ pathname: '/' });
 
                 setTimeout(() => {
                     props.showHideBanner({ show: false, type: '', text: '' })
+                    props.userLogout();
                 }, constants.BANNER_TIME);
             }, constants.BANNER_TIME);
 
@@ -352,7 +352,8 @@ const mapDispatchToProps = (dispatch) => {
         showHideBanner: (data) => dispatch(actions.showBannerAction(data)),
         goToPage: (currentPageName) => dispatch(actions.goToPage(currentPageName)),
         setUserDetails: (data) => dispatch(actions.setUserDetails(data)),
-        showLoader : (data) => dispatch(actions.showLoader(data))
+        showLoader : (data) => dispatch(actions.showLoader(data)),
+        userLogout : () => dispatch(actions.userLogout())
     }
 }
 export default connect(mapStoreToProps, mapDispatchToProps)(Auth);

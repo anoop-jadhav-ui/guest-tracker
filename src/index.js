@@ -17,7 +17,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   authR: authReducer,
   bannerR: bannerReducer,
   navR: navigationReducer,
@@ -25,6 +25,18 @@ const rootReducer = combineReducers({
   loadR: loaderReducer,
   homeR: homePageReducer
 })
+
+const rootReducer = (state, action) => {
+  console.log('rootReducer');
+  if (action.type === 'USER_LOGOUT') {
+      // for all keys defined in your persistConfig(s)
+      storage.removeItem('persist:root')
+      // storage.removeItem('persist:otherKey')
+      state = undefined;
+      console.log('rootreducer')
+  }
+  return appReducer(state, action);
+};
 
 const persistConfig = {
   key: 'root',

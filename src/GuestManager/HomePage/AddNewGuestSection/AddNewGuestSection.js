@@ -88,8 +88,15 @@ const AddNewGuestSection = (props) => {
                     }
                     break;
                 case 'guestof':
-                    setOptionFun(inputValue);
+                    // setOptionFun(inputValue);
                     setGuestOf(inputValue);
+                    if (inputValue !== '') {
+                        guestOfRef.current.removeHighlights();
+                    } else {
+                        guestOfRef.current.highlightInput();
+                    }
+                    break;
+                   
                     break;
                 case 'familyname':
                     setFamilyName(inputValue);
@@ -107,20 +114,20 @@ const AddNewGuestSection = (props) => {
         }
     }
 
-    function checkIfValuesChanged() {
-        try {
-            let flag = false;
-            if (contact !== props.selectedGuest.contactNumber) flag = true;
-            if (guestOf !== props.selectedGuest.guestOf) flag = true;
-            if (familyName !== props.selectedGuest.familyName) flag = true;
-            if (guestName !== props.selectedGuest.guestName) flag = true;
+    // function checkIfValuesChanged() {
+    //     try {
+    //         let flag = false;
+    //         if (contact !== props.selectedGuest.contactNumber) flag = true;
+    //         if (guestOf !== props.selectedGuest.guestOf) flag = true;
+    //         if (familyName !== props.selectedGuest.familyName) flag = true;
+    //         if (guestName !== props.selectedGuest.guestName) flag = true;
 
-            return flag;
+    //         return flag;
 
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
     function checkIfAlreadyPresentIntheGuestList() {
         try {
             let flag = false;
@@ -282,8 +289,11 @@ const AddNewGuestSection = (props) => {
             <div className="inputWrapper">
                 <Input label="Contact Numer" ref={contactRef} name="contact" type="number" value={contact} onChange={changeHandler}></Input>
             </div>
-            <div className="inputWrapper">
+            {/* <div className="inputWrapper">
                 <Input label="Guest Of" ref={guestOfRef} name="guestof" type="radio" options={options} value={guestOf} onChange={changeHandler}></Input>
+            </div> */}
+            <div className="inputWrapper">
+                <Input label="Guest Of" ref={guestOfRef} name="guestof" type="text" value={guestOf} onChange={changeHandler} placeholder="for eg. Bride, Groom"></Input>
             </div>
             <div className="inputWrapper">
                 <Input label="Family Name/Group Name (optional)" ref={familyNameRef} name="familyname" type="text" value={familyName} onChange={changeHandler}></Input>

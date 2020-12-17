@@ -127,11 +127,23 @@ ion-icon[name=create-outline]{
 }
 
 
-.gradient{
-   background:#F2F2F2;
-    background-size: 600% 600%;
-
+.gradient-0{
+    background: linear-gradient(90deg, #E0EAFC 0%, #CFDEF3 100%);
 }
+.gradient-1{
+    background: linear-gradient(90deg, #D3CCE3 0%, #E9E4F0 100%);
+}
+.gradient-2{
+    background: linear-gradient(90deg, #EE9CA7 0%, #FFDDE1 100%);
+}
+.gradient-3{
+    background: linear-gradient(90deg, #8E9EAB 0%, #EEF2F3 100%);
+}
+.gradient-4{
+    background: linear-gradient(90deg, #EFEFBB 0%, #D4D3DD 100%);
+}
+
+
 
 /* .gradient{
     background: linear-gradient(270deg, #60a5bf, #5784ce, #7362cc);

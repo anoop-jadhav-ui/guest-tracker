@@ -30,6 +30,7 @@ const HomePage = (props) => {
 
     let [currentSection, SetCurrentSection] = useState('welcome');
     let [selectedEvent, setSelectedEvent] = useState();
+    let [selectedEventIndex,setSelectedEventIndex] = useState();
     // let [pageHeader, setPageHeader] = useState();
     // let [pageSubHeader, setPageSubHeader] = useState();
     let [events, setEvents] = useState();
@@ -185,11 +186,12 @@ const HomePage = (props) => {
             console.log(e);
         }
     }
-    function cardClickHandler(eventId) {
+    function cardClickHandler(eventId,index) {
         try {
             events.forEach(ele => {
                 if (ele.eventId === parseInt(eventId)) {
                     setSelectedEvent(ele);
+                    setSelectedEventIndex(index);
                 }
             })
             goToSection('viewevent');
@@ -357,6 +359,7 @@ const HomePage = (props) => {
                             fetchEventsData={fetchEventsData}
                             showHideBanner={props.showHideBanner}
                             showLoader={props.showLoader}
+                            selectedEventIndex={selectedEventIndex}
                         ></ViewEventSection>
                     }></Route>
                     <Route exact path={props.match.path + '/addevent'} render={

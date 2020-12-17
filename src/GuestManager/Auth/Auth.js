@@ -316,7 +316,7 @@ const Auth = (props) => {
                     <Input label="Full Name" ref={fullnameRef} name="fullname" type="text" value={fullname} onChange={changeHandler} placeholder='Georgia Young'></Input>
                 </div>}
                 <div className="inputWrapper">
-                    <Input label="Username" ref={usernameRef} name="username" type="text" value={username} onChange={changeHandler} placeholder='georgia.young@example.com'></Input>
+                    <Input label="Username(Email Id)" ref={usernameRef} name="username" type="text" value={username} onChange={changeHandler} placeholder='georgia.young@example.com'></Input>
                 </div>
                 <div className="inputWrapper">
                     <Input label="Password" ref={passwordRef} name="password" type="password" value={password} onKeyDown={keyDownHandler} onChange={changeHandler} placeholder='***********'></Input>

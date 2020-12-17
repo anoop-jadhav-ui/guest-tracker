@@ -28,7 +28,7 @@ const Button = (props) => {
         return () => { 
             clearTimeout(timeoutVariable);
          }
-    },[timeoutVariable])
+    },[])
     
     if (props.type === 'primary') {
         return (

@@ -94,7 +94,7 @@ const HomePage = (props) => {
                     // let newUser = true;
                     Object.keys(res.data).forEach(key => {
                         let currentObj = res.data[key];
-                        if (currentObj.userName === props.loggedInUserName) {
+                        if (currentObj.userName.toLowerCase() === props.loggedInUserName.toLowerCase()) {
                             //events for current user
                             setUserNodeId(key);
                             if ('events' in res.data[key]) {

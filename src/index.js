@@ -12,22 +12,40 @@ import bannerReducer from './GuestManager/store/bannerReducer'
 import navigationReducer from './GuestManager/store/navigationReducer'
 import userDetailsReducer from './GuestManager/store/userDetailsReducer'
 import loaderReducer from './GuestManager/store/loaderReducer'
+import homePageReducer from './GuestManager/store/homePageReducer'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const rootReducer = combineReducers({
   authR: authReducer,
   bannerR: bannerReducer,
   navR: navigationReducer,
   userR: userDetailsReducer,
-  loadR: loaderReducer
+  loadR: loaderReducer,
+  homeR: homePageReducer
 })
 
-const store = createStore(rootReducer);
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+const store = createStore(
+  persistedReducer
+);
+
+let persistor = persistStore(store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );

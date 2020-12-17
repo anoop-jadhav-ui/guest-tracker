@@ -1,12 +1,9 @@
-.pageWrapper{
+.body[data-current-sec='allguests'],
+.body[data-current-sec='newguest'],
+.body[data-current-sec='welcome']{
+    padding-bottom:4rem;
+}
+.body[data-current-sec='viewevent']{
+    padding-bottom:7rem;
+}
 
-}
-.NavigationButtons{
-
-}
-.header{
-    
-}
-.body{
-    
-}

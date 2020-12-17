@@ -1,8 +1,9 @@
 import Button from '../../Components/Button/Button'
+import FloatingPanel from '../../Components/FloatingPanel/FloatingPanel'
 import styles from './WelcomeSection.module.css'
 
 const WelcomeSection = (props) => {
-   
+
     function cardClickHandler(evt) {
         try {
             let eventId = evt.target.dataset.cardKey;
@@ -25,7 +26,9 @@ const WelcomeSection = (props) => {
                     )
                 })
             }
-            <Button className="margin-top-1" type='primary' onClick={props.createNewEventHandler}>Create a New Event</Button>
+            <FloatingPanel>
+                <Button type='primary' onClick={props.createNewEventHandler}>Create a New Event</Button>
+            </FloatingPanel>
         </div>
     )
 }

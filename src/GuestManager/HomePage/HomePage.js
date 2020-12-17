@@ -279,6 +279,7 @@ const HomePage = (props) => {
                     pageSubHeader
                 }></PageHeader>
             }
+            currentSection={currentSection}
             body={
                 //Nested Route ---
                 // welcome section

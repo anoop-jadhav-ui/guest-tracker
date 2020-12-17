@@ -1,5 +1,6 @@
 import styles from './NewUserConfirmation.module.css'
 import Input from '../../Components/Input/Input'
+import FloatingPanel from '../../Components/FloatingPanel/FloatingPanel'
 
 import { useEffect, useState } from 'react';
 import Button from '../../Components/Button/Button';
@@ -62,9 +63,9 @@ const Confirmation = (props) => {
     return (
         <div className={styles.wrapper}>
             <Input label="" name="confirmationradio" type="radio" options={options} value={isNewGuest} onChange={changeHandler}></Input>
-            <div className={styles.buttonWrapper}>
+           <FloatingPanel>
             <Button type="primary" onClick={nextHandler}>Next</Button>
-            </div>
+            </FloatingPanel>
         </div>
     )
 }

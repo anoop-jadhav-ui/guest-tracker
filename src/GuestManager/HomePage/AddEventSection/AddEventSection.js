@@ -2,6 +2,7 @@ import styles from './AddEventSection.module.css'
 
 import React, { useRef, useState } from 'react'
 import Button from '../../Components/Button/Button'
+import FloatingPanel from '../../Components/FloatingPanel/FloatingPanel'
 import Input from '../../Components/Input/Input'
 import * as constants from '../../constants'
 import axiosInstance from '../../axios'
@@ -156,9 +157,9 @@ const AddEventSection = (props) => {
             {/* <div className="inputWrapper">
                 <Input label="Password" ref={locationRef} name="location" type="password" value={location} onChange={changeHandler} placeholder='***********'>></Input>
             </div> */}
-            <div className={styles.buttonWrapper}>
+            <FloatingPanel>
                 <Button type="primary" onClick={saveEventHandler}>Save Event</Button>
-            </div>
+            </FloatingPanel>
         </div>
 
     )

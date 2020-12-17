@@ -36,7 +36,8 @@ color:#828282;
     font-size:0.875rem;
 }
 .buttonWrapper{
-    padding-top:2rem;
+    padding-top:1rem;
+  
 }
 Button + Button {
     margin-top:0.5rem;

@@ -1,10 +1,12 @@
 import styles from './AddNewGuestSection.module.css'
 import React, { useEffect, useRef, useState } from 'react'
 import Button from '../../Components/Button/Button'
+import FloatingPanel from '../../Components/FloatingPanel/FloatingPanel'
 import Input from '../../Components/Input/Input'
 import * as constants from '../../constants'
 import axiosInstance from '../../axios'
 import { getId } from '../../Iterators'
+import FloatingButton from '../../Components/FloatingPanel/FloatingPanel'
 const AddNewGuestSection = (props) => {
 
     //States
@@ -287,9 +289,9 @@ const AddNewGuestSection = (props) => {
                 <Input label="Family Name/Group Name (optional)" ref={familyNameRef} name="familyname" type="text" value={familyName} onChange={changeHandler}></Input>
             </div>
 
-            <div className={styles.buttonWrapper}>
+           <FloatingButton>
                 <Button type="primary" onClick={saveEventHandler}>Save Guest</Button>
-            </div>
+            </FloatingButton>
         </div>
 
     )

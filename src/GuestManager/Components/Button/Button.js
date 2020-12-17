@@ -57,6 +57,13 @@ const Button = (props) => {
             </button>
         )
     }
+    else if (props.type === 'destructive-secondary') {
+        return (
+            <button {...props} disabled={disableButton} className={customClass +' '+   styles.secondaryButton +' '+props.textAlign + ' ' + styles.destructive} onClick={clickHandler}>
+               {props.children}
+            </button>
+        )
+    }
 }
 
 export default Button;

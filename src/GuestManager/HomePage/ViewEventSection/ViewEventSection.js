@@ -3,6 +3,7 @@ import styles from './ViewEvent.module.css'
 
 import Button from '../../Components/Button/Button'
 import ConfirmationPopover from '../../Components/ConfirmationPopover/ConfirmationPopover'
+import FloatingPanel from '../../Components/FloatingPanel/FloatingPanel'
 import React, {useState } from 'react'
 
 import axiosInstance from '../../axios'
@@ -98,13 +99,16 @@ const ViewEventSection = (props) => {
                     <div className={styles.label}>Total Guests</div>
                     <div className={styles.data + ' bold large-text'}>{"guests" in props.event ? props.event.guests.length : '0'}</div>
                 </div>
+                <div className={styles.buttonWrapper}>
+                <Button className={styles.deleteButton} type="destructive-secondary" onClick={deleteEventHandler}>Delete this Event</Button>
+                </div>
             </div>
-            <div className={styles.buttonWrapper}>
-                <Button className="margin-top-1" type="neutral" onClick={updateGuestList}>View/Update Guest List</Button>
-                <Button type="primary" onClick={addNewGuest}>Add New Guest</Button>
+            
 
-                <Button className="margin-top-2" type="destructive-neutral" onClick={deleteEventHandler}>Delete this Event</Button>
-            </div>
+            <FloatingPanel>
+                <Button type="neutral" onClick={updateGuestList}>View/Update Guest List</Button>
+                <Button type="primary" onClick={addNewGuest}>Add New Guest</Button>
+            </FloatingPanel>
 
             {showConfirmPopover && <ConfirmationPopover confirmHandler={confirmHandler}
                 cancelHandler={cancelHandler}

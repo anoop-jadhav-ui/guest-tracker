@@ -27,7 +27,6 @@ const appReducer = combineReducers({
 })
 
 const rootReducer = (state, action) => {
-  console.log('rootReducer');
   if (action.type === 'USER_LOGOUT') {
       // for all keys defined in your persistConfig(s)
       storage.removeItem('persist:root')

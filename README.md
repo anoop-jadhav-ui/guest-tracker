@@ -1,4 +1,6 @@
 # Getting Started with Guest Tracker App
+This is a mobile only web app to keep track of your guests in any event you organize. 
+
 
 ## Available Scripts
 

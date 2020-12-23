@@ -1,11 +1,20 @@
 .floatingPanel{
-    width:100%;
+    width:25vW;
     background:white;
     position:fixed;
     padding:1rem;
-    left:0;
+    left:50%;
+    transform: translateX(-50%);
     box-shadow: lightgrey 4px -4px 10px;
 }
+
+@media (max-width: 768px) { 
+    .floatingPanel{
+      width:100%;
+      left:0;
+      transform: none;
+    }
+  }
 
 .bottom{
     bottom:0;

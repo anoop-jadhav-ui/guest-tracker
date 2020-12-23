@@ -1,13 +1,4 @@
-.Baner{
-    position:fixed;
-    left:0;
-    top:-52px;
-    width:100vW;
-    padding:1rem 1rem;
-    text-align: center;
-    animation : fly-in 0.75s ease-in-out forwards;
-    z-index:10000000;
-}
+
 .success{
     background:#0FA34C;
     color:white;
@@ -26,6 +17,7 @@
     font-weight: bold;
     font-size:1rem;
 }
+
 @keyframes fly-in{
     0%{
         top:-52px;
@@ -34,3 +26,23 @@
         top:0;
     }
 }
+
+.Baner{
+    position:fixed;
+    left:50%;
+    transform: translateX(-50%);
+    top:-52px;
+    width:25vW;
+    padding:1rem 1rem;
+    text-align: center;
+    animation : fly-in 0.75s ease-in-out forwards;
+    z-index:10000000;
+}
+
+@media (max-width: 768px) { 
+    .Baner{
+      width:100%;
+      left:0;
+      transform: none;
+    }
+  }

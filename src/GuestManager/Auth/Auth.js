@@ -41,7 +41,7 @@ const Auth = (props) => {
     //Functions
     useEffect(() => {
         props.goToPage(constants.AUTH_PAGE);
-    }, [])
+    },[])
 
     function changeHandler(evt) {
         try {
